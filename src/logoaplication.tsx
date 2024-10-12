@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logoD from './assets/image/logo D .png';
 import logoG from './assets/image/logo G .png';
 
@@ -13,13 +13,13 @@ function Logoaplication() {
     return (
         <div className="flex justify-between mx-4 transition-all duration-300">
             <img
-                className={`w-1/2 h-50 object-cover h-screen transition-transform duration-300 ${isMoved ? '-translate-x-[150%]' : ''}`} // Déplace à gauche
+                className={`w-1/2 h-dvh     transition-transform duration-300 ${isMoved ? '-translate-x-[150%]' : ''}`} // Déplace à gauche
                 src={logoG}
                 alt="logoG"
                 onClick={handleClick} // Ajout de l'événement de clic
             />
             <img
-                className={`w-1/2 h-50 object-cover h-screen transition-transform duration-300 ${isMoved ? 'translate-x-[150%]' : ''}`} // Déplace à droite
+                className={`w-1/2 h-dvh   transition-transform duration-300 ${isMoved ? 'translate-x-[150%]' : ''}`} // Déplace à droite
                 src={logoD}
                 alt="logoD"
                 onClick={handleClick} // Ajout de l'événement de clic
