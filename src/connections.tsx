@@ -54,7 +54,7 @@ function Login() {
                     <h2 className="text-4xl text-white text-center mb-4">LOGIN</h2> {/* Réduit la marge inférieure */}
                     <form
                         className="w-full max-w-xs mt-2"> {/* Ajout d'une marge supérieure pour remonter le formulaire */}
-                        <div className="mb-4">
+                        <div className="mb-6">
                             <input
                                 type="email"
                                 value={email}
