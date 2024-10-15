@@ -44,7 +44,7 @@ function Connections() {
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-r from-black via-blue-950 to-accent-500">
             <div className="relative w-96 p-10 bg-black bg-opacity-50 rounded-lg shadow-lg">
-                <h2 className="text-white text-3xl text-center mb-8">Login</h2>
+                <h2 className="text-white text-3xl text-center mb-8">Login Page</h2>
                 <form>
                     {/* Champ d'email */}
                     <div className="mb-6">
@@ -86,7 +86,7 @@ function Connections() {
                         className="w-full p-3 bg-gradient-to-b from-gray-800 to-blue-500 text-white rounded-lg hover:bg-blue-700 transition duration-300"
                         type="button"
                     >
-                        Se Connecter
+                        Enter
                     </button>
                 </form>
             </div>
