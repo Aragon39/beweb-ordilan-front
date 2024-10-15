@@ -7,7 +7,7 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Connections />} />
-            <Route path="/menu" element={<Menu />} />
+            <Route path="/Menu" element={<Menu />} />
             <Route path="/Ficheclients" element={<Ficheclients />} />
             {/* Ajoutez d'autres routes ici si nécessaire */}
         </Routes>

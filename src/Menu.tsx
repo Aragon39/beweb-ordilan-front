@@ -10,15 +10,16 @@ import Gaetan from './assets/image/Gaëtan.png'
 import {useNavigate} from "react-router-dom";
 
 function Menu() {
-    const navigate = useNavigate()
+    const navigate = useNavigate(); // Initialisation de useNavigate
+
+    // Fonction pour naviguer vers le chemin spécifié
     const onButtonClick = (path) => {
         navigate(path);
-
-    }
+    };
     return (
         <div className='flex items-center justify-center h-screen overflow-hidden '>
             <img src={Fond} alt="image de fond" className='object-center  absolute inset-0 w-full max-h-full'/>
-            <img src={FicheClient} alt='Fiche Clients'  className="absolute h-52 bottom-5 right-96 cursor-pointer " onClick={() => onButtonClick('/Ficheclients')}/>
+            <img src={FicheClient} alt='Fiche Clients'  className="absolute h-52 bottom-5 right-96 cursor-pointer " onClick={() => onButtonClick('/ficheclients')}/>
             <img src={ListeClients} alt='Liste Clients' className="absolute h-52 right-52 cursor-pointer " onClick={onButtonClick}/>
             <img src={HistoriqueClients} alt='Historique Clients' className="absolute top-6 h-52 right-80 cursor-pointer" onClick={onButtonClick}/>
             <img src={FicheTravaux} alt='fiche travaux' className="absolute top-0 h-52 cursor-pointer" onClick={onButtonClick}/>
