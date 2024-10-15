@@ -1,21 +1,14 @@
-
-import { Routes, Route } from 'react-router-dom'; // Importez Routes et Route
-import LogoAplication from './logoaplication'; // Importer le composant LogoAplication
-import Connections from './connections'; // Importer le composant Connections
+import { Routes, Route } from 'react-router-dom'; // Assurez-vous d'importer ces composants
+import Connections from './connections'; // Votre composant de connexion
+import Menu from './Menu'; // Votre composant de menu
 
 function App() {
     return (
-        <div>
-            <Routes>
-                <Route
-                    path="/" element={
-                    <div className="h-dvh w-full">
-                        <LogoAplication/> {/* Affichez le logo ici */}
-                    </div>
-                }/>
-                <Route path="/connections" element={<Connections />} /> {/* Route vers la page de connexion */}
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<Connections />} />
+            <Route path="/menu" element={<Menu />} />
+            {/* Ajoutez d'autres routes ici si nécessaire */}
+        </Routes>
     );
 }
 

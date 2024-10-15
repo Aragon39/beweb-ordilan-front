@@ -1,8 +1,8 @@
 import { useState } from "react";
-
-import Logo from './assets/image/connection.png'
+import {useNavigate} from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -33,56 +33,62 @@ function Login() {
             setEmailError("Please enter a valid email address");
             return;
         }
+        navigate('/Menu');
 
 
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            {/* Conteneur de l'image */}
-            <div className="h-screen w-full flex items-center justify-center">
-                {/* Image sans filtre de luminosité */}
-                <img
-                    src={Logo}
-                    alt="connection"
-                    className="w-2/3 h-auto mx-auto rounded-lg brightness-100" // Agrandi à 2/3 de la largeur du conteneur
-                />
+        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-gray-800 bg-teal-600">
 
-                {/* Formulaire de connexion positionné sur l'image */}
-                <div
-                    className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-15 rounded-lg">
-                    <h2 className="text-4xl text-white text-center mb-4">LOGIN</h2> {/* Réduit la marge inférieure */}
-                    <form
-                        className="w-full max-w-xs mt-2"> {/* Ajout d'une marge supérieure pour remonter le formulaire */}
-                        <div className="mb-6">
+            <div className="relative w-96 p-10 bg-black bg-opacity-50 rounded-lg shadow-lg">
+                <h2 className="text-white text-3xl text-center mb-8">Login</h2>
+                <form>
+                    {/* Champ d'email */}
+                    <div className="mb-6">
+                        <div className="relative">
                             <input
                                 type="email"
                                 value={email}
-                                placeholder="Enter email address here"
-                                onChange={ev => setEmail(ev.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Entrez votre adresse e-mail"
+                                onChange={(ev) => setEmail(ev.target.value)}
+                                className="w-full p-3 text-white bg-transparent border-b border-white outline-none focus:ring-2 focus:ring-blue-400"
                             />
-                            <label className="text-red-500 text-sm">{emailError}</label>
+                            <label
+                                className="absolute top-0 left-0 p-2 text-white duration-300 transform -translate-y-6 scale-75 origin-top-left pointer-events-none">
+                                Adresse e-mail
+                            </label>
                         </div>
-                        <div className="mb-4"> {/* Réduit la marge inférieure */}
+                        <label className="text-red-500 text-sm">{emailError}</label>
+                    </div>
+
+                    {/* Champ de mot de passe */}
+                    <div className="mb-6">
+                        <div className="relative">
                             <input
                                 type="password"
                                 value={password}
-                                placeholder="Enter password here"
-                                onChange={ev => setPassword(ev.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Entrez votre mot de passe"
+                                onChange={(ev) => setPassword(ev.target.value)}
+                                className="w-full p-3 text-white bg-transparent border-b border-white outline-none focus:ring-2 focus:ring-blue-400"
                             />
-                            <label className="text-red-500 text-sm">{passwordError}</label>
+                            <label
+                                className="absolute top-0 left-0 p-2 text-white transition-all duration-300 transform -translate-y-6 scale-75 origin-top-left pointer-events-none">
+                                Mot de passe
+                            </label>
                         </div>
-                    </form>
-                    {/* Bouton séparé du formulaire */}
-                    <input
+                        <label className="text-red-500 text-sm">{passwordError}</label>
+                    </div>
+
+                    {/* Bouton de soumission */}
+                    <button
                         onClick={onButtonClick}
-                        className=" p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 " // Ajout d'une marge supérieure pour séparer le bouton
+                        className="w-full p-3 bg-gradient-to-b from-gray-800 to-accent-500 text-white rounded-lg hover:bg-blue-700 transition duration-300"
                         type="button"
-                        value="Submit"
-                    />
-                </div>
+                    >
+                        Se Connecter
+                    </button>
+                </form>
             </div>
         </div>
     );
