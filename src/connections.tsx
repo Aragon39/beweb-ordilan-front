@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Connections() {
@@ -42,7 +42,7 @@ function Connections() {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen bg-gradient-to-r from-black via-blue-950 to-accent-500">
             <div className="relative w-96 p-10 bg-black bg-opacity-50 rounded-lg shadow-lg">
                 <h2 className="text-white text-3xl text-center mb-8">Login</h2>
                 <form>
