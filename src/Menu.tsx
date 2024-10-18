@@ -13,7 +13,7 @@ function Menu() {
     const navigate = useNavigate(); // Initialisation de useNavigate
 
     // Fonction pour naviguer vers le chemin spécifié
-    const onButtonClick = (path) => {
+    const onButtonClick = (path: any) => {
         navigate(path);
     };
     return (
