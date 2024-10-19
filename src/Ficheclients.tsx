@@ -2,6 +2,8 @@ import imagefond from './assets/image/fiche client.jpeg';
 import Ordilan from './assets/image/Logo-ordilan-png-1024x295.png';
 import React, { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+
 
 function Ficheclients() {
     interface SignUpState {
@@ -27,6 +29,11 @@ function Ficheclients() {
     });
 
     const [errorMessage, setErrorMessage] = useState<string>(''); // Pour gérer le message d'erreur
+    const navigate = useNavigate();
+    const handleClose = () =>{
+        navigate('/menu');
+    };
+
 
     // Gestion des modifications des champs du formulaire
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,6 +66,7 @@ function Ficheclients() {
             }
         }
     };
+
 
     return (
         <div className='Ficheclients'>
@@ -193,7 +201,7 @@ function Ficheclients() {
                     </button>
                     <button
                         type="button"
-                        onClick={() => { console.log('Fermer le formulaire'); }}
+                        onClick={handleClose}
                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                         Fermer le formulaire
                     </button>
