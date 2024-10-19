@@ -73,9 +73,9 @@ function Ficheclients() {
             <form onSubmit={handleSubmit} className='mt-60 flex flex-col relative gap-x-8'>
                 <div className='flex'>
                     <div className='flex flex-col space-y-4 w-1/2'>
+                                                            {/*NOM ET PRENOM*/}
                         <label className="block px-3">
-                            <input
-                                type="text"
+                            <input type="text"
                                 name="nomEtPrenom"
                                 id="nomEtPrenom"
                                 onChange={handleChange}
@@ -85,6 +85,7 @@ function Ficheclients() {
                                 placeholder="Nom et Prénom"
                             />
                         </label>
+                                                                 {/*TELEPHONE*/}
                         <label className="block px-3">
                             <input
                                 type="text"
@@ -95,6 +96,7 @@ function Ficheclients() {
                                 required
                             />
                         </label>
+                                                                   {/*ADRESSE */}
                         <label className="block px-3">
                             <input
                                 type="text"
@@ -106,7 +108,7 @@ function Ficheclients() {
                             />
                         </label>
                     </div>
-
+                                                                   {/*DATE*/}
                     <div className='flex flex-col space-y-4 w-1/2'>
                         <label className="block px-3">
                             <input
@@ -118,6 +120,7 @@ function Ficheclients() {
                                 required
                             />
                         </label>
+                                                                  {/*EMAIL*/}
                         <label className="block px-3">
                             <input
                                 type="email"
@@ -128,6 +131,7 @@ function Ficheclients() {
                                 required
                             />
                         </label>
+                                                                {/*MATERIELS*/}
                         <label className="block px-3">
                             <input
                                 type='text'
@@ -168,7 +172,7 @@ function Ficheclients() {
                         </label>
                     </div>
 
-                    {/*OBSERVATION*/}
+                                                           {/*OBSERVATION*/}
                     <div className="mt-4">
                         <textarea
                             name="observation"
@@ -180,7 +184,7 @@ function Ficheclients() {
                     </div>
                 </div>
 
-                {/* BOUTONS */}
+                                                          {/* BOUTONS */}
                 <div className="flex justify-center space-x-4 mt-6">
                     <button
                         type="submit"  // Bouton pour soumettre le formulaire
