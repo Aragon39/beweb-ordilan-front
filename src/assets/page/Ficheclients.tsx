@@ -1,5 +1,4 @@
-import imagefond from './assets/image/fiche client.jpeg';
-import Ordilan from './assets/image/Logo-ordilan-png-1024x295.png';
+import Ordilan from '../image/Logo-ordilan-png-1024x295.png';
 import React, { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
@@ -28,7 +27,6 @@ function Ficheclients() {
         observation: '',
     });
 
-    const [errorMessage, setErrorMessage] = useState<string>(''); // Pour gérer le message d'erreur
     const navigate = useNavigate();
     const handleClose = () =>{
         navigate('/menu');
@@ -45,16 +43,6 @@ function Ficheclients() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Empêche le rechargement de la page lors de la soumission
 
-        // Validation des champs requis
-        const { nomEtPrenom, date, email, adresse, telephone, materiel } = formData;
-
-        if (!nomEtPrenom || !date || !email || !adresse || !telephone || !materiel) {
-            setErrorMessage('Veuillez remplir tous les champs obligatoires.');
-            return;
-        } else {
-            setErrorMessage(''); // Réinitialise le message d'erreur si tous les champs sont remplis
-        }
-
         try {
             const response = await axios.post('http://localhost:5173/ficheclients', formData);
             console.log(response.data);
@@ -69,13 +57,9 @@ function Ficheclients() {
 
 
     return (
-        <div className='Ficheclients'>
-            <img src={imagefond} alt='image de fond' className='object-center absolute inset-0 w-full h-full ' />
-            <img src={Ordilan} alt='logo Ordilan' className='absolute h-40 top-2.5' />
+        <div className={`h-screen w-screen overflow-auto bg-ficheclients bg-cover`}>
+            <img src={Ordilan} alt='logo Ordilan' className=' absolute h-40 top-2.5 left-4' />
             <h1 className='absolute right-20 text-6xl top-16 text-black'>Fiche Client</h1>
-
-            {/* Affichage du message d'erreur */}
-            {errorMessage && <p className='text-red-500 text-center'>{errorMessage}</p>}
 
             {/* Le formulaire englobe désormais tout, y compris l'observation et les boutons */}
             <form onSubmit={handleSubmit} className='mt-60 flex flex-col relative gap-x-8'>
@@ -89,7 +73,7 @@ function Ficheclients() {
                                 onChange={handleChange}
                                 value={formData.nomEtPrenom}
                                 required
-                                className='border border-gray-950 rounded-3xl p-2 w-11/12 mt-1 font-bold'
+                                className='border border-gray-950 rounded-3xl p-2 w-11/12 font-bold'
                                 placeholder="Nom et Prénom"
                             />
                         </label>
@@ -124,7 +108,6 @@ function Ficheclients() {
                                 name="date"
                                 className='border border-gray-950 rounded-2xl p-2 w-full mt-1 font-bold'
                                 onChange={handleChange}
-                                value={formData.date}
                                 required
                             />
                         </label>
@@ -136,7 +119,7 @@ function Ficheclients() {
                                 className='border border-gray-950 rounded-2xl p-2 w-full mt-1 font-bold'
                                 placeholder='Email'
                                 onChange={handleChange}
-                                required
+                              required
                             />
                         </label>
                                                                 {/*MATERIELS*/}
@@ -147,62 +130,59 @@ function Ficheclients() {
                                 className='border border-gray-950 rounded-2xl p-2 w-full mt-1 font-bold'
                                 placeholder='Types de Matériel'
                                 onChange={handleChange}
-                                required
+                              required
                             />
                         </label>
+
                     </div>
                 </div>
 
-                {/*OPTIONS MATERIELS*/}
-                <div className='mt-6'>
+                                             {/*OPTIONS MATERIELS*/}
+                <div className=' mt-6 px-3'>
                     <div className='bg-gray-50 p-1 rounded-lg w-full flex flex-wrap gap-8 border border-red-950'>
                         <p className="font-bold text-xl">État de Matériel</p>
 
-                        <label className='flex items-center ml-auto font-bold text-xl '>
+                        <label className=' ml-auto font-bold text-xl '>
                             <input type="checkbox" name="excellent" value="excellent" className='mr-2' />
                             Excellent
                         </label>
-                        <label className='flex items-center ml-auto font-bold text-xl'>
+                        <label className=' ml-auto font-bold text-xl'>
                             <input type="checkbox" name="correct" value="correct" className='mr-2' />
                             Correct
                         </label>
-                        <label className='flex items-center ml-auto font-bold text-xl'>
+                        <label className='ml-auto font-bold text-xl'>
                             <input type="checkbox" name="bon" value="bon" className='mr-2' />
                             Bon
                         </label>
-                        <label className='flex items-center ml-auto font-bold text-xl'>
+                        <label className=' ml-auto font-bold text-xl'>
                             <input type="checkbox" name="mauvais" value="mauvais" className='mr-2' />
                             Mauvais
                         </label>
-                        <label className='flex items-center ml-auto font-bold text-xl'>
-                            <input type="checkbox" name="tres_mauvais" value="tres_mauvais" className='mr-2' />
-                            Très mauvais
-                        </label>
-                    </div>
-
-                                                           {/*OBSERVATION*/}
-                    <div className="mt-4">
-                        <textarea
-                            name="observation"
-                            onChange={handleChange}
-                            value={formData.observation}
-                            className='border border-gray-950 rounded-lg p-2 w-full h-32 mt-2'
-                            placeholder="Ecrivez vos observations ici ..."
-                        ></textarea>
                     </div>
                 </div>
+                                                           {/*OBSERVATION*/}
+                <div className=' mt-2 px-3'>
+                    <div className=" flex mt-2">
+                        <input
+                            name="observation"
+                            onChange={handleChange}
+                            className='border border-gray-950 rounded-lg p-2 w-full h-36 mt-2'
+                            placeholder="Ecrivez vos observations ici ..."
+                        ></input>
+                    </div>
+                 </div>
 
                                                           {/* BOUTONS */}
-                <div className="flex justify-center space-x-4 mt-6">
+                <div className="flex space-x-4 mt-6">
                     <button
                         type="submit"  // Bouton pour soumettre le formulaire
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                        className='bg-blue-950  text-white font-bold py-2 px-4 rounded'>
                         Créer client
                     </button>
                     <button
                         type="button"
                         onClick={handleClose}
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                        className='bg-blue-950 text-white font-bold py-2 px-4 rounded'>
                         Fermer le formulaire
                     </button>
                 </div>

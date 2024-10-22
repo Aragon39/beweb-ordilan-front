@@ -6,6 +6,10 @@ export default {
   ],
     theme: {
         extend: {
+            backgroundImage: {
+                'menu': "url('src/assets/image/Fond Circuit electronique.png')",
+                'ficheclients': "url('src/assets/image/fiche client.jpeg')",
+            },
             colors: {
                 perano: {
                     '50': '#f0f5fe',
