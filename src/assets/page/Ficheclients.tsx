@@ -1,5 +1,5 @@
 import Ordilan from '../image/Logo-ordilan-png-1024x295.png';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
@@ -56,15 +56,17 @@ function Ficheclients() {
 
 
     return (
-        <div className={`h-auto w-screen overflow-auto bg-ficheclients bg-cover`}>
+        <div className={`h-screen w-screen overflow-auto bg-ficheclients bg-cover`}>
             <header>
             <img src={Ordilan} alt='logo Ordilan' className=' absolute  flex h-40 top-2.5 left-4' />
             <h1 className='absolute  flex right-20 text-6xl top-16 text-black'>Fiche Client</h1>
         </header>
+
             {/* Le formulaire englobe désormais tout, y compris l'observation et les boutons */}
             <form onSubmit={handleSubmit} className='mt-60  '>
                 <div className='flex'>
                     <div className='flex flex-col space-y-4 w-1/2'>
+
                         {/*NOM ET PRENOM*/}
                         <label className="block px-3">
                             <input type="text"
@@ -113,45 +115,52 @@ function Ficheclients() {
                     </div>
                     {/*DATE*/}
                     <div className='flex flex-col space-y-4 w-1/2'>
-                        <label className="block px-3">
+                        <label>
                             <input
                                 type="datetime-local"
                                 name="date"
-                                className='border border-gray-950 rounded-3xl p-2 w-full mt-1 font-bold'
+                                className='block w-11/12 mx-auto px-3 border border-gray-950 rounded-2xl p-2 font-bold'
                                 onChange={handleChange}
                                 required
                             />
                         </label>
-                                                                  {/*EMAIL*/}
-                        <label className="block px-3">
+
+                        {/* EMAIL */}
+                        <label>
                             <input
                                 type="email"
                                 name="email"
-                                className='border border-gray-950 rounded-2xl p-2 w-full mt-1 font-bold'
+                                className='block w-11/12 mx-auto px-3 border border-gray-950 rounded-2xl p-2 font-bold'
                                 placeholder='Email'
                                 onChange={handleChange}
-                              required
+                                required
                             />
                         </label>
-                                                                {/*MATERIELS*/}
-                        MATERIELS
-                        <select id='Materiels'>
-                            <option value="ORDIANATEUR">ORDINATEUR</option>
+                        {/*MATERIELS*/}
+
+                        <select
+                            id='Materiels'
+                            className='block w-11/12 mx-auto px-3 border border-gray-950 rounded-2xl p-2 font-bold'
+                            defaultValue=""
+                        >
+                            <option value="">
+                                CHOIX DU MATÉRIEL
+                            </option>
+                            <option value="ORDINATEUR">ORDINATEUR</option>
                             <option value="TABLETTE">TABLETTE</option>
-                            <option value="ECRAN">ECRAN</option>
+                            <option value="ECRAN">ÉCRAN</option>
                             <option value="IMPRIMANTE">IMPRIMANTE</option>
                         </select>
-
                     </div>
                 </div>
 
-                                             {/*OPTIONS ETAT DU MATERIEL*/}
-                <section id='etat materiel' className=' mt-6 px-3'>
-                    <div className='bg-gray-50 p-1 rounded-lg w-full flex flex-wrap gap-8 border border-red-950'>
+                {/*OPTIONS ETAT DU MATERIEL*/}
+                <section id='etat materiel' className=' mt-8 px-3'>
+                    <div className='bg-gray-50 p-1 rounded-lg w-auto flex flex-wrap gap-8 border border-red-950'>
                         <p className="font-bold text-xl">État de Matériel</p>
 
                         <label className=' ml-auto font-bold text-xl '>
-                            <input type="checkbox" name="excellent" value="excellent" className='mr-2' />
+                            <input type="checkbox" name="excellent" value="excellent" className='mr-2'/>
                             Excellent
                         </label>
                         <label className=' ml-auto font-bold text-xl'>

@@ -1,14 +1,69 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+module.exports = {
+    content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+    ],
     theme: {
         extend: {
+            keyframes: {
+                refine: {
+                    "0%": { left: "0%" },
+                    "20%": { left: "-50%" },
+                    "40%": { left: "0%" },
+                    "60%": { left: "50%" },
+                    "80%": { left: "0%" },
+                    "100%": { left: "0%" },
+                },
+                rotate: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
+                'refine-slide': {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'translateX(0)' },
+                },
+                slideDown: {
+                    '0%': { transform: 'translateY(-100%)' },
+                    '100%': { transform: 'translateY(0)' },
+                },
+                slideUp: {
+                    '0%': { transform: 'translateY(0)' },
+                    '100%': { transform: 'translateY(-100%)' },
+                },
+                'spin-slow': {
+                    'from': { transform: 'rotate(0deg)' },
+                    'to': { transform: 'rotate(360deg)' },
+                },
+                fadeIn: {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
+                slideIn: {
+                    '0%': { transform: 'translateX(-100%)', opacity: '0' }, // Commence en dehors de l'écran à gauche
+                    '100%': { transform: 'translateX(0)', opacity: '1' }, // Fin à sa position d'origine
+                },
+                slideOut: {
+                    '0%': { transform: 'translateX(0)', opacity: '1' }, // Commence à sa position d'origine
+                    '100%': { transform: 'translateX(100%)', opacity: '0' }, // Fin en dehors de l'écran à droite
+                },
+            },
+            animation: {
+                slideIn: 'slideIn 3s ease-in-out',
+                slideOut: 'slideOut 3s ease-in-out',
+                fade: 'fadeIn 10s ease-in-out',
+                refine: 'refine 2s ease-in-out infinite',
+                rotate: 'rotate 15s linear infinite',
+                'spin-slow': 'spin-slow 87s linear infinite',
+                'refine-slide': 'refine-slide 5s ease-out',
+                'slide-down': 'slideDown 0.5s ease forwards',
+                'slide-up': 'slideUp 0.5s ease forwards',
+            },
+            spacing: {
+                '1000': '1000px', // Ajoute une perspective de 1000px
+            },
             backgroundImage: {
-                'menu': "url('src/assets/image/Fond Circuit electronique.png')",
-                'ficheclients': "url('src/assets/image/fiche client.jpeg')",
+                menu: "url('src/assets/image/Fond Circuit electronique.png')",
+                ficheclients: "url('src/assets/image/fiche client.jpeg')",
             },
             colors: {
                 perano: {
@@ -24,182 +79,180 @@ export default {
                     '900': '#223386',
                     '950': '#192152',
                 },
-                // Couleurs supplémentaires
                 primary: {
-                    '50': '#EFF6FF',       // Bleu très clair
-                    '100': '#DBEAFE',      // Bleu clair
-                    '200': '#BFDBFE',      // Bleu
-                    '300': '#93C5FD',      // Bleu moyen
-                    '400': '#60A5FA',      // Bleu vif
-                    '500': '#3B82F6',      // Bleu principal
-                    '600': '#2563EB',      // Bleu foncé
-                    '700': '#1D4ED8',      // Bleu très foncé
-                    '800': '#1E40AF',      // Bleu intense
-                    '900': '#1E3A8A',      // Bleu profond
+                    '50': '#EFF6FF',
+                    '100': '#DBEAFE',
+                    '200': '#BFDBFE',
+                    '300': '#93C5FD',
+                    '400': '#60A5FA',
+                    '500': '#3B82F6',
+                    '600': '#2563EB',
+                    '700': '#1D4ED8',
+                    '800': '#1E40AF',
+                    '900': '#1E3A8A',
                 },
                 secondary: {
-                    '50': '#F5F3FF',      // Violet très clair
-                    '100': '#EDE9FE',     // Violet clair
-                    '200': '#DDD6FE',     // Violet
-                    '300': '#C4B5FD',     // Violet moyen
-                    '400': '#A78BFA',     // Violet vif
-                    '500': '#9333EA',     // Violet principal
-                    '600': '#7E22CE',     // Violet foncé
-                    '700': '#6B21A8',     // Violet très foncé
-                    '800': '#581C87',     // Violet intense
-                    '900': '#3B0F5C',     // Violet profond
+                    '50': '#F5F3FF',
+                    '100': '#EDE9FE',
+                    '200': '#DDD6FE',
+                    '300': '#C4B5FD',
+                    '400': '#A78BFA',
+                    '500': '#9333EA',
+                    '600': '#7E22CE',
+                    '700': '#6B21A8',
+                    '800': '#581C87',
+                    '900': '#3B0F5C',
                 },
                 accent: {
-                    '50': '#FEFCE8',      // Jaune très clair
-                    '100': '#FEF9C3',     // Jaune clair
-                    '200': '#FEE68C',     // Jaune
-                    '300': '#FCD34D',     // Jaune moyen
-                    '400': '#FBBF24',     // Jaune vif
-                    '500': '#F59E0B',     // Jaune principal
-                    '600': '#D97706',     // Jaune foncé
-                    '700': '#B45309',     // Jaune très foncé
-                    '800': '#92400E',     // Jaune intense
-                    '900': '#78350F',     // Jaune profond
+                    '50': '#FEFCE8',
+                    '100': '#FEF9C3',
+                    '200': '#FEE68C',
+                    '300': '#FCD34D',
+                    '400': '#FBBF24',
+                    '500': '#F59E0B',
+                    '600': '#D97706',
+                    '700': '#B45309',
+                    '800': '#92400E',
+                    '900': '#78350F',
                 },
                 danger: {
-                    '50': '#FEF2F2',      // Rouge très clair
-                    '100': '#FEE2E2',     // Rouge clair
-                    '200': '#FECACA',     // Rouge
-                    '300': '#FCA5A1',     // Rouge moyen
-                    '400': '#F87171',     // Rouge vif
-                    '500': '#EF4444',     // Rouge principal
-                    '600': '#DC2626',     // Rouge foncé
-                    '700': '#B91C1C',     // Rouge très foncé
-                    '800': '#991B1B',     // Rouge intense
-                    '900': '#7F1D1D',     // Rouge profond
+                    '50': '#FEF2F2',
+                    '100': '#FEE2E2',
+                    '200': '#FECACA',
+                    '300': '#FCA5A1',
+                    '400': '#F87171',
+                    '500': '#EF4444',
+                    '600': '#DC2626',
+                    '700': '#B91C1C',
+                    '800': '#991B1B',
+                    '900': '#7F1D1D',
                 },
                 success: {
-                    '50': '#ECFDF5',      // Vert très clair
-                    '100': '#C6F6D5',     // Vert clair
-                    '200': '#9AE6B4',     // Vert
-                    '300': '#68D391',     // Vert moyen
-                    '400': '#48BB78',     // Vert vif
-                    '500': '#4CAF50',     // Vert principal
-                    '600': '#38A169',     // Vert foncé
-                    '700': '#2F855A',     // Vert très foncé
-                    '800': '#276749',     // Vert intense
-                    '900': '#22543D',     // Vert profond
+                    '50': '#ECFDF5',
+                    '100': '#C6F6D5',
+                    '200': '#9AE6B4',
+                    '300': '#68D391',
+                    '400': '#48BB78',
+                    '500': '#4CAF50',
+                    '600': '#38A169',
+                    '700': '#2F855A',
+                    '800': '#276749',
+                    '900': '#22543D',
                 },
                 info: {
-                    '50': '#EBF8FF',      // Bleu très clair
-                    '100': '#BEE3F8',     // Bleu clair
-                    '200': '#90CDF4',     // Bleu
-                    '300': '#63B3ED',     // Bleu moyen
-                    '400': '#4299E1',     // Bleu vif
-                    '500': '#3182CE',     // Bleu principal
-                    '600': '#2B6CB0',     // Bleu foncé
-                    '700': '#2C5282',     // Bleu très foncé
-                    '800': '#2A4361',     // Bleu intense
-                    '900': '#1A365D',     // Bleu profond
+                    '50': '#EBF8FF',
+                    '100': '#BEE3F8',
+                    '200': '#90CDF4',
+                    '300': '#63B3ED',
+                    '400': '#4299E1',
+                    '500': '#3182CE',
+                    '600': '#2B6CB0',
+                    '700': '#2C5282',
+                    '800': '#2A4361',
+                    '900': '#1A365D',
                 },
                 warning: {
-                    '50': '#FFFBEB',      // Jaune très clair
-                    '100': '#FEF3C7',     // Jaune clair
-                    '200': '#FDE68A',     // Jaune
-                    '300': '#FCD34D',     // Jaune moyen
-                    '400': '#FBBF24',     // Jaune vif
-                    '500': '#F59E0B',     // Jaune principal
-                    '600': '#D97706',     // Jaune foncé
-                    '700': '#B45309',     // Jaune très foncé
-                    '800': '#92400E',     // Jaune intense
-                    '900': '#78350F',     // Jaune profond
+                    '50': '#FFFBEB',
+                    '100': '#FEF3C7',
+                    '200': '#FDE68A',
+                    '300': '#FCD34D',
+                    '400': '#FBBF24',
+                    '500': '#F59E0B',
+                    '600': '#D97706',
+                    '700': '#B45309',
+                    '800': '#92400E',
+                    '900': '#78350F',
                 },
-                // Autres couleurs personnalisées
                 customGray: {
-                    '50': '#F9FAFB',     // Gris très clair
-                    '100': '#F3F4F6',    // Gris clair
-                    '200': '#E5E7EB',    // Gris
-                    '300': '#D1D5DB',    // Gris moyen
-                    '400': '#9CA3AF',    // Gris vif
-                    '500': '#6B7280',    // Gris principal
-                    '600': '#4B5563',    // Gris foncé
-                    '700': '#374151',    // Gris très foncé
-                    '800': '#1F2937',    // Gris intense
-                    '900': '#111827',    // Gris profond
+                    '50': '#F9FAFB',
+                    '100': '#F3F4F6',
+                    '200': '#E5E7EB',
+                    '300': '#D1D5DB',
+                    '400': '#9CA3AF',
+                    '500': '#6B7280',
+                    '600': '#4B5563',
+                    '700': '#374151',
+                    '800': '#1F2937',
+                    '900': '#111827',
                 },
-                customBlack: '#111827',   // Noir personnalisé
-                customWhite: '#FFFFFF',   // Blanc personnalisé
-                lightGray: '#F3F4F6',    // Gris clair
-                darkGray: '#374151',     // Gris foncé
+                customBlack: '#111827',
+                customWhite: '#FFFFFF',
+                lightGray: '#F3F4F6',
+                darkGray: '#374151',
                 teal: {
-                    '50': '#F0FDFA',      // Teal très clair
-                    '100': '#CCFBF1',     // Teal clair
-                    '200': '#99F6E4',     // Teal
-                    '300': '#5ED3C3',     // Teal moyen
-                    '400': '#2DD4BF',     // Teal vif
-                    '500': '#14B8A6',     // Teal principal
-                    '600': '#0D9488',     // Teal foncé
-                    '700': '#0F766E',     // Teal très foncé
-                    '800': '#115E59',     // Teal intense
-                    '900': '#134E4A',     // Teal profond
+                    '50': '#F0FDFA',
+                    '100': '#CCFBF1',
+                    '200': '#99F6E4',
+                    '300': '#5ED3C3',
+                    '400': '#2DD4BF',
+                    '500': '#14B8A6',
+                    '600': '#0D9488',
+                    '700': '#0F766E',
+                    '800': '#115E59',
+                    '900': '#134E4A',
                 },
                 orange: {
-                    '50': '#FFFBEB',      // Orange très clair
-                    '100': '#FEF3C7',     // Orange clair
-                    '200': '#FCD34D',     // Orange
-                    '300': '#FBBF24',     // Orange moyen
-                    '400': '#F59E0B',     // Orange vif
-                    '500': '#D97706',     // Orange principal
-                    '600': '#B45309',     // Orange foncé
-                    '700': '#A95C09',     // Orange très foncé
-                    '800': '#92400E',     // Orange intense
-                    '900': '#78350F',     // Orange profond
+                    '50': '#FFFBEB',
+                    '100': '#FEF3C7',
+                    '200': '#FCD34D',
+                    '300': '#FBBF24',
+                    '400': '#F59E0B',
+                    '500': '#D97706',
+                    '600': '#B45309',
+                    '700': '#A95C09',
+                    '800': '#92400E',
+                    '900': '#78350F',
                 },
                 purple: {
-                    '50': '#F5F3FF',      // Violet très clair
-                    '100': '#EDE9FE',     // Violet clair
-                    '200': '#DDD6FE',     // Violet
-                    '300': '#C4B5FD',     // Violet moyen
-                    '400': '#A78BFA',     // Violet vif
-                    '500': '#9333EA',     // Violet principal
-                    '600': '#7E22CE',     // Violet foncé
-                    '700': '#6B21A8',     // Violet très foncé
-                    '800': '#581C87',     // Violet intense
-                    '900': '#3B0F5C',     // Violet profond
+                    '50': '#F5F3FF',
+                    '100': '#EDE9FE',
+                    '200': '#DDD6FE',
+                    '300': '#C4B5FD',
+                    '400': '#A78BFA',
+                    '500': '#9333EA',
+                    '600': '#7E22CE',
+                    '700': '#6B21A8',
+                    '800': '#581C87',
+                    '900': '#3B0F5C',
                 },
                 red: {
-                    '50': '#FEF2F2',      // Rouge très clair
-                    '100': '#FEE2E2',     // Rouge clair
-                    '200': '#FECACA',     // Rouge
-                    '300': '#FCA5A1',     // Rouge moyen
-                    '400': '#F87171',     // Rouge vif
-                    '500': '#EF4444',     // Rouge principal
-                    '600': '#DC2626',     // Rouge foncé
-                    '700': '#B91C1C',     // Rouge très foncé
-                    '800': '#991B1B',     // Rouge intense
-                    '900': '#7F1D1D',     // Rouge profond
+                    '50': '#FEF2F2',
+                    '100': '#FEE2E2',
+                    '200': '#FECACA',
+                    '300': '#FCA5A1',
+                    '400': '#F87171',
+                    '500': '#EF4444',
+                    '600': '#DC2626',
+                    '700': '#B91C1C',
+                    '800': '#991B1B',
+                    '900': '#7F1D1D',
                 },
                 indigo: {
-                    '50': '#E0E7FF',      // Indigo très clair
-                    '100': '#C7D2FE',     // Indigo clair
-                    '200': '#A5B4FC',     // Indigo
-                    '300': '#818CF8',     // Indigo moyen
-                    '400': '#6366F1',     // Indigo vif
-                    '500': '#4F46E5',     // Indigo principal
-                    '600': '#4338CA',     // Indigo foncé
-                    '700': '#3730A3',     // Indigo très foncé
-                    '800': '#312E81',     // Indigo intense
-                    '900': '#1E1A78',     // Indigo profond
+                    '50': '#E0E7FF',
+                    '100': '#C7D2FE',
+                    '200': '#A5B4FC',
+                    '300': '#818CF8',
+                    '400': '#6366F1',
+                    '500': '#4F46E5',
+                    '600': '#4338CA',
+                    '700': '#3730A3',
+                    '800': '#312E81',
+                    '900': '#1E1A78',
                 },
                 blue: {
-                    '50': '#EFF6FF',      // Bleu très clair
-                    '100': '#DBEAFE',     // Bleu clair
-                    '200': '#BFDBFE',     // Bleu
-                    '300': '#93C5FD',     // Bleu moyen
-                    '400': '#60A5FA',     // Bleu vif
-                    '500': '#3B82F6',     // Bleu principal
-                    '600': '#2563EB',     // Bleu foncé
-                    '700': '#1D4ED8',     // Bleu très foncé
-                    '800': '#1E40AF',     // Bleu intense
-                    '900': '#1E3A8A',     // Bleu profond
+                    '50': '#EFF6FF',
+                    '100': '#DBEAFE',
+                    '200': '#BFDBFE',
+                    '300': '#93C5FD',
+                    '400': '#60A5FA',
+                    '500': '#3B82F6',
+                    '600': '#2563EB',
+                    '700': '#1D4ED8',
+                    '800': '#1E40AF',
+                    '900': '#1E3A8A',
                 },
             },
         },
     },
     plugins: [],
-}
+};
