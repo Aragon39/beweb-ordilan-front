@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 function Ficheclients() {
     interface SignUpState {
         nom: string;
-        prenom: string;
+        Prenom: string;
         date: string;
         email: string;
         adresse: string;
@@ -17,7 +17,7 @@ function Ficheclients() {
 
     const [formData, setFormData] = useState<SignUpState>({
         nom: '',
-        prenom: '',
+        Prenom: '',
         date: '',
         email: '',
         adresse: '',
@@ -41,6 +41,7 @@ function Ficheclients() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Empêche le rechargement de la page lors de la soumission
 
+
         try {
             const response = await axios.post('http://localhost:5173/ficheclients', formData);
             console.log(response.data);
@@ -56,18 +57,18 @@ function Ficheclients() {
 
 
     return (
-        <div className={`h-screen w-screen overflow-auto bg-ficheclients bg-cover`}>
-            <header>
+        <div className={`h-auto w-auto overflow-auto bg-ficheclients bg-cover`}>
+            <section id='logo et titre'>
             <img src={Ordilan} alt='logo Ordilan' className=' absolute  flex h-40 top-2.5 left-4' />
             <h1 className='absolute  flex right-20 text-6xl top-16 text-black'>Fiche Client</h1>
-        </header>
+        </section>
 
             {/* Le formulaire englobe désormais tout, y compris l'observation et les boutons */}
             <form onSubmit={handleSubmit} className='mt-60  '>
                 <div className='flex'>
                     <div className='flex flex-col space-y-4 w-1/2'>
 
-                        {/*NOM ET PRENOM*/}
+                        {/*NOM*/}
                         <label className="block px-3">
                             <input type="text"
                                    name="nom"
@@ -84,7 +85,7 @@ function Ficheclients() {
                                    name="Prenom"
                                    id="Prenom"
                                    onChange={handleChange}
-                                   value={formData.prenom}
+                                   value={formData.Prenom}
                                    required
                                    className='border border-gray-950 rounded-3xl p-2 w-11/12 font-bold '
                                    placeholder="Prénom"
@@ -185,7 +186,7 @@ function Ficheclients() {
                 </section>
 
                                       {/* BOUTONS */}
-                <section id='button' className="flex space-x-4 mt-6">
+                <section id='button' className="flex space-x-4 mt-6 p-3">
                     <button
                         type="submit"  // Bouton pour soumettre le formulaire
                         className='bg-blue-950  text-white font-bold py-2 px-4 rounded'>

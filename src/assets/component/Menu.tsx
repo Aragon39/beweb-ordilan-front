@@ -1,78 +1,133 @@
-import FicheClient from '../image/FicheClient.png';
-import ListeClients from '../image/Liste Clients.png';
-import HistoriqueClients from '../image/Historique Clients.png';
-import FicheTravaux from '../image/Fiche Travaux.png';
-import VenteMateriel from '../image/Vente de Matériel.png';
-import Paimenent from '../image/Paiement.png';
-import Devis from '../image/Devis.png';
-import Gaetan from '../image/Gaëtan.png';
-import {useNavigate} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import {useEffect, useRef} from 'react';
 
-function Menu() {
-    const navigate = useNavigate(); // Initialisation de useNavigate
+const Menu: React.FC = () => {
+    // Crée une référence pour accéder au canevas HTML
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-    // Fonction pour naviguer vers le chemin spécifié
-    const onButtonClick = (path: string) => {
-        navigate(path);
-    };
+    useEffect(() => {
+        // Récupère l'élément canvas à partir de la référence
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Récupère le contexte 2D du canevas
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // Définit la taille du canevas pour remplir toute la fenêtre
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+
+        // Crée les étoiles avec des propriétés aléatoires
+        const stars = Array.from({length: 2000}).map(() => ({
+            x: Math.random() * canvas.width,  // Position x
+            y: Math.random() * canvas.height, // Position y
+            radius: Math.random() * 2,        // Rayon de l'étoile
+            speed: Math.random() * 0.5 + 0.5, // Vitesse
+            z: Math.random() * canvas.width,  // Effet de profondeur
+            color: `hsl(${Math.random() * 360}, 100%, ${Math.random() * 50 + 50}%)` // Couleur aléatoire
+        }));
+
+        // Fonction pour animer les étoiles
+        const animateStars = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Efface le canevas
+
+            stars.forEach(star => {
+                // Calcul de perspective pour un effet 3D
+                const perspective = 200 / (star.z + 200);
+                const x = (star.x - canvas.width / 2) * perspective + canvas.width / 2;
+                const y = (star.y - canvas.height / 2) * perspective + canvas.height / 2;
+                const radius = star.radius * perspective;
+
+                // Dessine chaque étoile
+                ctx.fillStyle = star.color;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Met à jour la position des étoiles pour créer l'illusion de mouvement
+                star.y += star.speed;
+
+                // Réinitialise la position des étoiles lorsqu'elles sortent de l'écran
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+
+            // Demande la prochaine image d'animation
+            requestAnimationFrame(animateStars);
+        };
+
+        animateStars();
+
+        // Met à jour la taille du canevas lorsque la fenêtre est redimensionnée
+        window.addEventListener('resize', resizeCanvas);
+
+    }, []);
 
     return (
-        <nav className="h-screen w-screen flex justify-center items-center bg-menu bg-cover">
+        <nav className="flex items-center justify-center min-h-screen bg-black relative">
+            {/* Canevas pour les étoiles en arrière-plan */}
+            <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"/>
 
-            <div
-                className={`relative w-[900px] h-[900px] flex items-center justify-center overflow-hidden animate-slideIn`}>
-                {/* Fiche Clients */}
-                <img src={FicheClient} alt='Fiche Clients'
-                     className="absolute top-8 left-1/4 transform -translate-x-1/4 cursor-pointer h-48 animate-slideIn"
-                     onClick={() => onButtonClick('/ficheclients')}
-                />
 
-                {/* Liste Clients */}
-                <img src={ListeClients} alt='Liste Clients'
-                     className="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer h-48 animate-slideIn"
-                     onClick={() => onButtonClick('/Listeclients')}
-                />
+            <div className="flex flex-col items-center space-y-5 p-7 relative  max-w-lg w-full">
 
-                {/* Historique Clients */}
-                <img src={HistoriqueClients} alt='Historique Clients'
-                     className="absolute bottom-0 left-1/2 transform -translate-x-1/2 cursor-pointer h-48 animate-slideIn"
-                     onClick={() => onButtonClick('')}
-                />
-
-                {/* Fiche Travaux */}
-                <img src={FicheTravaux} alt='Fiche Travaux'
-                     className="absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer h-48 "
-                     onClick={() => onButtonClick('')}
-                />
-
-                {/* Vente Materiel */}
-                <img src={VenteMateriel} alt='Vente de Materiel'
-                     className="absolute left-16 bottom-16 cursor-pointer h-48 animate-slideIn"
-                     onClick={() => onButtonClick('')}
-                />
-
-                {/* Paiement */}
-                <img src={Paimenent} alt='Paiement'
-                     className="absolute right-16 bottom-16 cursor-pointer h-48"
-                     onClick={() => onButtonClick('')}
-                />
-
-                {/* Devis */}
-                <img src={Devis} alt='Devis'
-                     className="absolute right-52 top-16 cursor-pointer h-48 animate-slideIn"
-                     onClick={() => onButtonClick('')}
-                />
-                <img src={Gaetan} alt="Gaetan" className="h-56 w-56"/>
+                {/*fiche clients*/}
+                <section id="fiche-clients" className="flex justify-center w-full">
+                    <Link
+                        to="/ficheclients"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Fiche Client
+                    </Link>
+                </section>
+                                               {/*liste clients */}
+                <section id="liste-clients" className="flex justify-center w-full">
+                    <Link
+                        to="/listeclients"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Liste Clients
+                    </Link>
+                </section>
+                                              {/*Historique clients */}
+                <section id="Historique-clients" className="flex justify-center w-full">
+                    <Link
+                        to="/Historiqueclients"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Historique Clients
+                    </Link>
+                </section>
+                                                  {/*fiche travaux*/}
+                <section id="Fiche-Travaux" className="flex justify-center w-full">
+                    <Link
+                        to="/FicheTravaux"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Fiche Travaux
+                    </Link>
+                </section>
+                                                  {/*Devis*/}
+                <section id="Devis" className="flex justify-center w-full">
+                    <Link
+                        to="/Devis"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Devis
+                    </Link>
+                </section>
+                                                   {/*paiement*/}
+                <section id="Paiement" className="flex justify-center w-full">
+                    <Link
+                        to="/Paiement"
+                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
+                        Paiement
+                    </Link>
+                </section>
             </div>
-
-
         </nav>
     );
-}
+};
 
 export default Menu;
-
-
-
-
-

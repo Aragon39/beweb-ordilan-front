@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router-dom'; // Assurez-vous d'importer ces
 import Connections from './assets/page/connections'; // Votre composant de connexion (modifiez le chemin si nécessaire)
 import Menu from './assets/component/Menu'; // Votre composant de menu (modifiez le chemin si nécessaire)
 import FicheClients from './assets/page/Ficheclients'; // Votre composant de fiche clients (modifiez le chemin si nécessaire)
-import Listeclients from './assets/page/Listeclients.tsx'
-
+import ListeClients from './assets/page/Listeclients'; // Modifiez le chemin si nécessaire
 
 function App() {
     return (
@@ -11,7 +10,7 @@ function App() {
             <Route path="/" element={<Connections />} /> {/* Page de connexion par défaut */}
             <Route path="/menu" element={<Menu />} /> {/* Chemin pour le menu */}
             <Route path="/ficheclients" element={<FicheClients />} /> {/* Chemin pour les fiches clients */}
-            <Route path="/listeclients" element={<Listeclients />} />
+            <Route path="/listeclients" element={<ListeClients />} /> {/* Chemin pour la liste des clients */}
             {/* Ajoutez d'autres routes ici si nécessaire */}
         </Routes>
     );
