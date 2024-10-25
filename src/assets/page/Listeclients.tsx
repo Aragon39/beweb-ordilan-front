@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Ordilan from '../image/Logo-ordilan-png-1024x295.png';
@@ -17,9 +17,9 @@ interface Client {
     email: string;
 }
 
+
 const Listeclients: React.FC = () => {
     const [clients, setClients] = useState<Client[]>([]);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,61 +50,67 @@ const Listeclients: React.FC = () => {
     // fonction pour modifier le client
     const handleEdit = (client: Client) => { navigate("/Ficheclients", { state: { client} });
     }
-
+    const handleClose = () => {
+        navigate('/Menu');
+    };
     return (
         <div>
-            <section id='logo et tire' > {/* Conteneur pour le logo et le titre */}
-                <img src={Ordilan} alt="Logo Ordilan" className="flex h-40 top-16 left-4 mb-4 mt-4" style={{ padding: "5px", margin: "10px" }} />
+            <section id='logo et tire'> {/* Conteneur pour le logo et le titre */}
+                <img src={Ordilan} alt="Logo Ordilan" className="flex h-40 top-16 left-4 mb-4 mt-4"
+                     style={{padding: "5px", margin: "10px"}}/>
                 <h1 className="absolute flex right-20 text-6xl top-16 text-black">Liste des Clients</h1>
             </section>
 
-                <table className="table-auto w-full border-collapse border bg-blue-950 mt-8">
-                    <thead>
+            <table>
+                <thead className="table-auto w-full border-collapse border bg-blue-900 mt-8">
+                <tr>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Id</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Nom</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Prénom</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Adresse</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Téléphone</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Matériels</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">État</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Date</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Email</th>
+                    <th className="px-4 py-2 border border-gray-300 text-accent-50">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {clients.length === 0 ? (
                     <tr>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Id</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Nom</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Prénom</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Adresse</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Téléphone</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Matériels</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">État</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Date</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Email</th>
-                        <th className="px-4 py-2 border border-gray-300 text-accent-50">Actions</th>
+                        <td colSpan={10} className="text-center py-4">Aucun client trouvé</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {clients.length === 0 ? (
-                        <tr>
-                            <td colSpan={10} className="text-center py-4">Aucun client trouvé</td>
+                ) : (
+                    clients.map((client) => (
+                        <tr key={client.id}>
+                            <td className="border px-4 py-2 text-black">{client.id}</td>
+                            <td className="border px-4 py-2 text-black">{client.nom}</td>
+                            <td className="border px-4 py-2 text-black">{client.prenom}</td>
+                            <td className="border px-4 py-2 text-black">{client.adresse}</td>
+                            <td className="border px-4 py-2 text-black">{client.telephone}</td>
+                            <td className="border px-4 py-2 text-black">{client.materiels}</td>
+                            <td className="border px-4 py-2 text-black">{client.etat}</td>
+                            <td className="border px-4 py-2 text-black">{client.date}</td>
+                            <td className="border px-4 py-2 text-black">{client.email}</td>
+                            <td className="border px-4 py-2 text-black">
+                                <button className="px-2 py-1 text-white bg-red-500 rounded"
+                                        onClick={() => handleDelete(client.id)}>
+                                    Supprimer
+                                </button>
+                                <button className="ml-2 px-2 py-1 text-white bg-blue-500 rounded"
+                                        onClick={() => handleEdit(client)}>Modifier
+                                </button>
+                            </td>
                         </tr>
-                    ) : (
-                        clients.map((client) => (
-                            <tr key={client.id}>
-                                <td className="border px-4 py-2 text-accent-50">{client.id}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.nom}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.prenom}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.adresse}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.telephone}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.materiels}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.etat}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.date}</td>
-                                <td className="border px-4 py-2 text-accent-50">{client.email}</td>
-                                <td className="border px-4 py-2 text-accent-50">
-                                    <button className="px-2 py-1 text-white bg-red-500 rounded"
-                                    onClick={() => handleDelete( client.id)}>
-                                        Supprimer
-                                    </button>
-                                    <button className="ml-2 px-2 py-1 text-white bg-blue-500 rounded"
-                                    onClick={() => handleEdit( client)}>Modifier
-                                    </button>
-                                </td>
-                            </tr>
-                        ))
-                    )}
-                    </tbody>
-                </table>
-
+                    ))
+                )}
+                </tbody>
+            </table>
+            <button className="px-2 py-1 text-white bg-blue-400 rounded"
+            onClick={handleClose}>
+                Retour
+            </button>
         </div>
     );
 };

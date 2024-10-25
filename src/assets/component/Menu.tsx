@@ -22,11 +22,11 @@ const Menu: React.FC = () => {
         resizeCanvas();
 
         // Crée les étoiles avec des propriétés aléatoires
-        const stars = Array.from({length: 2000}).map(() => ({
+        const stars = Array.from({length: 3500}).map(() => ({
             x: Math.random() * canvas.width,  // Position x
             y: Math.random() * canvas.height, // Position y
             radius: Math.random() * 2,        // Rayon de l'étoile
-            speed: Math.random() * 0.5 + 0.5, // Vitesse
+            speed: Math.random() * 0.8 + 0.8, // Vitesse
             z: Math.random() * canvas.width,  // Effet de profondeur
             color: `hsl(${Math.random() * 360}, 100%, ${Math.random() * 50 + 50}%)` // Couleur aléatoire
         }));
@@ -71,13 +71,13 @@ const Menu: React.FC = () => {
 
     return (
         <nav className="flex items-center justify-center min-h-screen bg-black relative">
-            {/* Canevas pour les étoiles en arrière-plan */}
+                                   {/* Canevas pour les étoiles en arrière-plan */}
             <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"/>
 
 
             <div className="flex flex-col items-center space-y-5 p-7 relative  max-w-lg w-full">
 
-                {/*fiche clients*/}
+                                                      {/*fiche clients*/}
                 <section id="fiche-clients" className="flex justify-center w-full">
                     <Link
                         to="/ficheclients"
@@ -85,7 +85,7 @@ const Menu: React.FC = () => {
                         Fiche Client
                     </Link>
                 </section>
-                                               {/*liste clients */}
+                                                       {/*liste clients */}
                 <section id="liste-clients" className="flex justify-center w-full">
                     <Link
                         to="/listeclients"
@@ -93,7 +93,7 @@ const Menu: React.FC = () => {
                         Liste Clients
                     </Link>
                 </section>
-                                              {/*Historique clients */}
+                                                     {/*Historique clients */}
                 <section id="Historique-clients" className="flex justify-center w-full">
                     <Link
                         to="/Historiqueclients"
@@ -101,7 +101,7 @@ const Menu: React.FC = () => {
                         Historique Clients
                     </Link>
                 </section>
-                                                  {/*fiche travaux*/}
+                                                      {/*fiche travaux*/}
                 <section id="Fiche-Travaux" className="flex justify-center w-full">
                     <Link
                         to="/FicheTravaux"
@@ -109,7 +109,7 @@ const Menu: React.FC = () => {
                         Fiche Travaux
                     </Link>
                 </section>
-                                                  {/*Devis*/}
+                                                      {/*Devis*/}
                 <section id="Devis" className="flex justify-center w-full">
                     <Link
                         to="/Devis"
