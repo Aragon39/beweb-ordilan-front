@@ -1,0 +1,18 @@
+{
+  "clients": [
+    {
+      "id": "1",
+      "nom": "ROBERT",
+      "prenom": "JACQUE",
+      "date": "2024-10-25T14:07",
+      "email": "FINIELSROBERT@YAHOO.FR",
+      "adresse": "123 route de monpellier 30190 nimes",
+      "telephone": "09.67.56.34.34",
+      "observation": "",
+      "materiels": "TABLETTE",
+      "etat": [
+        "bon"
+      ]
+    }
+  ]
+}
