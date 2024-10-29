@@ -3,6 +3,8 @@ import Connections from './assets/page/connections'; // Votre composant de conne
 import Menu from './assets/component/Menu'; // Votre composant de menu (modifiez le chemin si nécessaire)
 import FicheClients from './assets/page/Ficheclients'; // Votre composant de fiche clients (modifiez le chemin si nécessaire)
 import ListeClients from './assets/page/Listeclients';
+import FicheDintervention from './assets/page/FicheDintervention';
+import './index.css'
 
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
             <Route path="/menu" element={<Menu />} /> {/* Chemin pour le menu */}
             <Route path="/ficheclients" element={<FicheClients />} /> {/* Chemin pour les fiches clients */}
             <Route path="/listeclients" element={<ListeClients />} /> {/* Chemin pour la liste des clients */}
+            <Route path="/FicheDintervention" element={<FicheDintervention />} />
 
             {/* Ajoutez d'autres routes ici si nécessaire */}
         </Routes>
