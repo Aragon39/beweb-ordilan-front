@@ -1,23 +1,26 @@
 import { Routes, Route } from 'react-router-dom'; // Assurez-vous d'importer ces composants
-import Connections from './page/connections'; // Votre composant de connexion (modifiez le chemin si nécessaire)
-import Menu from './component/Menu'; // Votre composant de menu (modifiez le chemin si nécessaire)
-import FicheClients from './page/Ficheclients'; // Votre composant de fiche clients (modifiez le chemin si nécessaire)
-import ListeClients from './page/Listeclients';
-import FicheDintervention from './page/FicheDintervention';
-import './index.css'
-
+import Connections from './page/Connections'; // Utiliser le même casing
+import Menu from './component/Menu'; // Votre composant de menu
+import FicheClients from './page/Ficheclients'; // Votre composant de fiche clients
+import ListeClients from './page/Listeclients'; // Composant pour la liste des clients
+import FicheDintervention from './page/FicheDintervention'; // Composant pour la fiche d'intervention
+import Devis from './page/Devis'; // Composant pour les devis
+import './index.css'; // Importation de votre fichier CSS global
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Connections />} /> {/* Page de connexion par défaut */}
-            <Route path="/menu" element={<Menu />} /> {/* Chemin pour le menu */}
-            <Route path="/ficheclients" element={<FicheClients />} /> {/* Chemin pour les fiches clients */}
-            <Route path="/listeclients" element={<ListeClients />} /> {/* Chemin pour la liste des clients */}
-            <Route path="/FicheDintervention" element={<FicheDintervention />} />
+        <div className="app-container"> {/* Conteneur principal pour le style, si nécessaire */}
+            <Routes>
+                <Route path="/" element={<Connections />} /> {/* Page de connexion par défaut */}
+                <Route path="/menu" element={<Menu />} /> {/* Chemin pour le menu */}
+                <Route path="/ficheclients" element={<FicheClients />} /> {/* Chemin pour les fiches clients */}
+                <Route path="/listeclients" element={<ListeClients />} /> {/* Chemin pour la liste des clients */}
+                <Route path="/fichedintervention" element={<FicheDintervention />} /> {/* Correction de la casse du chemin */}
+                <Route path="/devis" element={<Devis />} /> {/* Correction de la casse du chemin */}
 
-            {/* Ajoutez d'autres routes ici si nécessaire */}
-        </Routes>
+                {/* Ajoutez d'autres routes ici si nécessaire */}
+            </Routes>
+        </div>
     );
 }
 
