@@ -77,7 +77,7 @@ function Connections() {
                                 Password
                             </label>
                         </div>
-                        <label className="text-red-500 text-sm">{passwordError}</label>
+                        <label>{passwordError}</label>
                     </div>
 
                     {/* Bouton de soumission */}
