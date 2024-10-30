@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom'; // Assurez-vous d'importer ces composants
-import Connections from './assets/page/connections'; // Votre composant de connexion (modifiez le chemin si nécessaire)
-import Menu from './assets/component/Menu'; // Votre composant de menu (modifiez le chemin si nécessaire)
-import FicheClients from './assets/page/Ficheclients'; // Votre composant de fiche clients (modifiez le chemin si nécessaire)
-import ListeClients from './assets/page/Listeclients';
-import FicheDintervention from './assets/page/FicheDintervention';
+import Connections from './page/connections'; // Votre composant de connexion (modifiez le chemin si nécessaire)
+import Menu from './component/Menu'; // Votre composant de menu (modifiez le chemin si nécessaire)
+import FicheClients from './page/Ficheclients'; // Votre composant de fiche clients (modifiez le chemin si nécessaire)
+import ListeClients from './page/Listeclients';
+import FicheDintervention from './page/FicheDintervention';
 import './index.css'
 
 

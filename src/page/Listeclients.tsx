@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Ordilan from '../image/Logo-ordilan-png-1024x295.png';
+import Ordilan from "../assets/image/Logo-ordilan-png-1024x295.png"; // Remonte d'un niveau
+
 
 interface Client {
     id: number;
@@ -36,7 +37,7 @@ const Listeclients: React.FC = () => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce client ? ")) {
             try {
                 await axios.delete(`http://localhost:3000/clients/${id}`);
-                setClients(clients.filter(client => client.id !== id));
+                setClients((prevClients) => prevClients.filter(client => client.id !== id));
             } catch (error) {
                 console.error('Erreur lors de la suppression du client:', error);
             }
@@ -45,20 +46,20 @@ const Listeclients: React.FC = () => {
 
     const handleEdit = (client: Client) => {
         navigate("/Ficheclients", { state: { client } });
-    }
+    };
 
     const handleClose = () => {
         navigate('/Menu');
     };
 
     return (
-        <div>
-            <section id='logo et titre' className="flex flex-row items-center justify-center mb-7"> {/* Conteneur pour le logo et le titre */}
-                <img src={Ordilan} alt="Logo Ordilan" className="h-40 mt-1" style={{ padding: "1px", margin: "10px" }} />
-                <h1 className="text-4xl md:text-6xl text-black ml-80">Liste des Clients</h1>
+        <div className="p-4">
+            <section id='logo-et-titre' className="flex items-center justify-center mb-7 flex-wrap">
+                <img src={Ordilan} alt="Logo Ordilan" className="h-40" />
+                <h1 className="text-4xl md:text-6xl text-black ml-4">Liste des Clients</h1>
             </section>
 
-            <section id="tableau" className="overflow-x-auto"> {/* Conteneur pour le tableau avec défilement horizontal */}
+            <section id="tableau" className="overflow-x-auto">
                 <table className="min-w-full border-collapse border bg-blue-900">
                     <thead>
                         <tr>
@@ -86,13 +87,15 @@ const Listeclients: React.FC = () => {
                                     <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.etat}</td>
                                     <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.date}</td>
                                     <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.email}</td>
-                                    <td className="border px-1 py-1 text-white text-xs md:text-sm flex space-x-1">
-                                        <button className="px-2 py-1 text-white bg-red-500 rounded" onClick={() => handleDelete(client.id)}>
-                                            Supprimer
-                                        </button>
-                                        <button className="px-2 py-1 text-white bg-blue-700 rounded" onClick={() => handleEdit(client)}>
-                                            Modifier
-                                        </button>
+                                    <td className="border px-1 py-1 text-white text-xs md:text-sm">
+                                        <div className="flex justify-center space-x-2">
+                                            <button className="px-2 py-1 text-white bg-red-500 rounded" onClick={() => handleDelete(client.id)}>
+                                                Supprimer
+                                            </button>
+                                            <button className="px-2 py-1 text-white bg-blue-700 rounded" onClick={() => handleEdit(client)}>
+                                                Modifier
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
@@ -101,9 +104,11 @@ const Listeclients: React.FC = () => {
                 </table>
             </section>
 
-            <button className="mt-4 px-4 py-2 text-white bg-blue-700 rounded" onClick={handleClose}>
-                Retour
-            </button>
+            <div className="mt-2 col-span-1 md:col-span-2 flex space-x-4">
+                <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" onClick={handleClose}>
+                    Retour
+                </button>
+            </div>
         </div>
     );
 };
