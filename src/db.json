@@ -1,46 +1,52 @@
 {
   "clients": [
     {
-      "id": "2",
+      "id": "1",
       "nom": "gaetan",
-      "prenom": "httrrr",
-      "date": "2024-10-29T15:57",
-      "email": "zzD@ZHDZDZ.fr",
-      "adresse": "ZDAZAZ",
-      "telephone": "0667676746",
-      "observation": "jsdsjdzjadazda",
-      "materiels": "IMPRIMANTE",
-      "etat": [
-        "excellent"
-      ]
-    },
-    {
-      "id": "3",
-      "nom": "FINIELS",
-      "prenom": "GAETAN",
-      "date": "2024-10-30T11:28",
-      "email": "FINIELSGAETAN@YAHOO.FR",
+      "prenom": "finiels",
       "adresse": "9 RUE DU MOULINS A VENT 30190 LA CALMETTE",
-      "telephone": "0783736030",
-      "observation": "",
+      "telephone": "3434531312312",
+      "date": "2024-11-03T11:07",
+      "email": "FINIELSGAETAN@YAHOO.FR",
       "materiels": "TABLETTE",
-      "etat": [
-        "correct"
-      ]
+      "etat": "Trés Mauvais",
+      "observation": ""
     },
     {
-      "id": "5",
-      "nom": "FARID",
-      "prenom": "ANTHONI",
-      "date": "2024-10-30T13:29",
-      "email": "FARID@YAHOO.fr",
-      "adresse": "dsdsds",
-      "telephone": "08.09.09.45.46",
-      "observation": "zdzdzsqdx ",
-      "materiels": "TABLETTE",
-      "etat": [
-        "mauvais"
-      ]
+      "id": "ccff",
+      "nom": "gaetan",
+      "prenom": "finiels",
+      "adresse": "9 RUE DU MOULINS A VENT 30190 LA CALMETTE",
+      "telephone": "3434531312312",
+      "date": "2024-11-03T11:16",
+      "email": "FINIELSGAETAN@YAHOO.FR",
+      "materiels": "ORDINATEUR",
+      "etat": "Excellent",
+      "observation": ""
+    },
+    {
+      "id": "4448",
+      "nom": "gaetan",
+      "prenom": "finiels",
+      "adresse": "9 RUE DU MOULINS A VENT 30190 LA CALMETTE",
+      "telephone": "3434531312312",
+      "date": "2024-11-03T15:16",
+      "email": "FINIELSGAETAN@YAHOO.FR",
+      "materiels": "ECRAN",
+      "etat": "Bon",
+      "observation": ""
+    },
+    {
+      "id": "25ae",
+      "nom": "gaetan",
+      "prenom": "finiels",
+      "adresse": "9 RUE DU MOULINS A VENT 30190 LA CALMETTE",
+      "telephone": "3434531312312",
+      "date": "2024-11-03T11:17",
+      "email": "FINIELSGAETAN@YAHOO.FR",
+      "materiels": "ORDINATEUR",
+      "etat": "Exellent",
+      "observation": ""
     }
   ]
 }

@@ -1,178 +1,135 @@
-import React, { useEffect, useState } from 'react'; // Importation des modules React et hooks
-import axios from 'axios'; // Importation de la bibliothèque axios pour les requêtes HTTP
-import { useNavigate, useLocation } from "react-router-dom"; // Importation des hooks pour la navigation et la localisation
-import Ordilan from "../assets/image/Logo-ordilan-png-1024x295.png"; // Remonte d'un niveau
-
+import { useState } from "react";
+import Ordilan from "../assets/image/Logo-ordilan-png-1024x295.png";
+import { useNavigate } from "react-router-dom";
+import { createClient, SignUpState } from "../services/clientService"; // Assurez-vous que le chemin est correct
 
 function Ficheclients() {
-    interface SignUpState {
-        id?: number; // Identifiant optionnel
-        nom: string; // Nom du client
-        prenom: string; // Prénom du client
-        date: string; // Date
-        email: string; // Email du client
-        adresse: string; // Adresse
-        telephone: string; // Numéro de téléphone
-        observation: string; // Observations
-        materiels: string; // Matériels
-        etat: string[]; // État du matériel
+  const [formData, setFormData] = useState<SignUpState>({
+    nom: "",
+    prenom: "",
+    adresse: "",
+    telephone: "",
+    date: "",
+    email: "",
+    materiels: "",
+    etat:"", // Utilisation d'un tableau pour l'état
+    observation: "",
+  });
+
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null); // État pour gérer les erreurs
+
+  const handleClose = () => {
+    navigate('/menu'); 
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Empêche le rechargement de la page
+    console.log("Données du formulaire :", formData);
+
+    try {
+      // Appel au service pour créer le client
+      await createClient(formData); 
+      console.log("Client créé avec succès");
+      navigate('/Listeclients'); // Redirige vers la liste des clients
+    } catch (error) {
+      console.error("Erreur lors de la création du client :", error);
+      setError("Une erreur est survenue lors de la création du client."); // Afficher l'erreur
     }
+  };
 
-    const navigate = useNavigate(); // Hook pour naviguer entre les routes
-    const { state } = useLocation(); // Récupération de l'état de la localisation
-    const clientData = state?.client; // Données du client, si disponibles
+  return (
+    <div className="container mx-auto p-4">
+      {error && <div className="text-red-500">{error}</div>} {/* Affichage des erreurs */}
 
-    // État du formulaire
-    const [formData, setFormData] = useState<SignUpState>({
-        nom: '', prenom: '', date: '', email: '', adresse: '', telephone: '',
-        observation: '', materiels: '', etat: [],
-    });
+      <section id="titre et logo" className="flex flex-col md:flex-row items-center mb-8">
+        <img src={Ordilan} alt="logo Ordilan" className="h-40 mb-4 md:mb-0" />
+        <h1 className="text-4xl text-black md:text-left md:ml-12">FICHE CLIENTS</h1>
+      </section>
 
-    // Remplissage des données du formulaire si le client est défini
-    useEffect(() => {
-        if (clientData) setFormData(clientData);
-    }, [clientData]);
+      {/* Formulaire principal */}
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Colonne gauche */}
+        <div className="flex flex-col">
+          <label htmlFor="nom" className="block mb-2 font-bold">Nom
+            <input type="text" name="nom" id="nom" onChange={handleChange} value={formData.nom} placeholder="Nom" className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
 
-    const handleClose = () => navigate('/menu'); // Fonction pour fermer le formulaire et retourner au menu
+          <label htmlFor="prenom" className="block mb-2 font-bold">Prénom
+            <input type="text" name="prenom" id="prenom" onChange={handleChange} value={formData.prenom} placeholder="Prénom" className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
 
-    // Gestion des changements dans les champs de formulaire
-    const handleChange = ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: name === "etat"
-                ? prevData.etat.includes(value)
-                    ? prevData.etat.filter(item => item !== value) // Désélectionner l'état si déjà sélectionné
-                    : [...prevData.etat, value] // Ajouter l'état à la liste
-                : value,
-        }));
-    };
+          <label htmlFor="telephone" className="block mb-2 font-bold">Téléphone
+            <input type="text" name="telephone" id="telephone" onChange={handleChange} value={formData.telephone} placeholder="Téléphone" className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
 
-    // Soumission du formulaire
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Empêche le comportement par défaut de la soumission
-        try {
-            const url = `http://localhost:3000/clients${clientData ? `/${formData.id}` : ''}`; // URL pour l'API
-            // Effectuer la requête PUT ou POST en fonction de l'existence des données du client
-            await (clientData ? axios.put(url, formData) : axios.post(url, formData));
-            navigate('/Listeclients'); // Rediriger vers la liste des clients
-        } catch (error) {
-            console.error('Erreur lors de la soumission :', error); // Afficher l'erreur dans la console
-        }
-    };
-
-    // Composant pour les champs d'entrée
-    const InputField = ({ name, type = "text", placeholder }: { name: keyof SignUpState; type?: string; placeholder: string }) => (
-        <label className="block px-3">
-            <input
-                type={type}
-                name={name}
-                onChange={handleChange}
-                value={formData[name]}
-                required
-                className='border border-gray-950 rounded-3xl p-2 w-full font-bold'
-                placeholder={placeholder}
-            />
-        </label>
-    );
-
-    // Composant pour les zones de texte
-    const TextAreaField = ({ name, placeholder }: { name: keyof SignUpState; placeholder: string }) => (
-        <section id='observation' className='mt-2 px-3 col-span-2'>
-            <div className="flex mt-2">
-                <textarea
-                    name={name}
-                    onChange={handleChange}
-                    value={formData[name]}
-                    className='border border-gray-950 rounded-lg p-2 w-full h-40 mt-2 resize-none'
-                    placeholder={placeholder}
-                />
-            </div>
-        </section>
-    );
-
-    return (
-        <div className={`h-auto w-auto overflow-auto bg-ficheclients bg-cover`}>
-            {/* Section du logo et titre */}
-            <section id='logo et titre' className="flex flex-col items-center">
-                <div className="flex flex-col md:flex-row items-center lg:mb-8">
-                    <img src={Ordilan} alt='logo Ordilan' className='h-40 mb-4 md:mb-0 md:mr-96' />
-                    <h1 className='text-6xl text-black mt-4 lg:mt-8'>Fiche Client</h1>
-                </div>
-            </section>
-
-            {/* Formulaire */}
-            <form onSubmit={handleSubmit} className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='flex flex-col space-y-4'>
-                    {['nom', 'prenom', 'telephone', 'adresse'].map(field => (
-                        <InputField key={field} name={field as keyof SignUpState} placeholder={field.charAt(0).toUpperCase() + field.slice(1)} />
-                    ))}
-                </div>
-
-                <div className='flex flex-col space-y-4'>
-                    <label>
-                        <input
-                            type="datetime-local"
-                            name="date"
-                            value={formData.date}
-                            className='block w-full mx-auto px-3 border border-gray-950 rounded-2xl p-2 font-bold'
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-
-                    <InputField name="email" type="email" placeholder='Email' />
-
-                    <select
-                        name="materiels"
-                        value={formData.materiels}
-                        className='block w-full mx-auto px-3 border border-gray-950 rounded-2xl p-2 font-bold'
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">CHOIX DU MATÉRIEL</option>
-                        {['ORDINATEUR', 'TABLETTE', 'ECRAN', 'IMPRIMANTE'].map(option => (
-                            <option key={option} value={option}>{option}</option>
-                        ))}
-                    </select>
-                </div>
-
-                <section id='etat materiel' className='mt-8 px-3 col-span-2'>
-                    <div className='bg-gray-50 p-1 rounded-lg w-full flex flex-wrap gap-8 border border-red-950'>
-                        <p className="font-bold text-xl">État de Matériel</p>
-                        {['excellent', 'correct', 'bon', 'mauvais'].map(etat => (
-                            <label key={etat} className='ml-auto font-bold text-xl'>
-                                <input
-                                    type="checkbox"
-                                    name="etat"
-                                    value={etat}
-                                    className='mr-2'
-                                    checked={formData.etat.includes(etat)}
-                                    onChange={handleChange}
-                                />
-                                {etat.charAt(0).toUpperCase() + etat.slice(1)}
-                            </label>
-                        ))}
-                    </div>
-                </section>
-
-                <TextAreaField name="observation" placeholder="Écrivez vos observations ici ..." />
-
-                <section id='button' className="flex space-x-4 mt-4 p-3 col-span-2">
-                    <button
-                        type="submit"
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                        {clientData ? "Modifier Client" : "Créer Client"}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                        Fermer le formulaire
-                    </button>
-                </section>
-            </form>
+          <label htmlFor="adresse" className="block mb-2 font-bold">Adresse
+            <input type="text" name="adresse" id="adresse" onChange={handleChange} value={formData.adresse} placeholder="Adresse" className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
         </div>
-    );
+
+        {/* Colonne droite */}
+        <div className="flex flex-col">
+          <label htmlFor="date" className="block mb-2 font-bold">Date
+            <input type="datetime-local" name="date" id="date" onChange={handleChange} value={formData.date} className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
+
+          <label htmlFor="email" className="block mb-2 font-bold">Email
+            <input type="email" name="email" id="email" onChange={handleChange} value={formData.email} placeholder="Email" className="border border-gray-950 rounded-3xl p-2 w-full font-serif" required />
+          </label>
+
+          <label htmlFor="materiels" className="block mb-2 font-bold">Matériel
+            <select id="materiels" name="materiels" value={formData.materiels} className="block w-full mx-auto px-3 border border-gray-950 p-2 rounded-3xl font-serif" onChange={handleChange} required>
+              <option value="">-- CHOISIR UN MATÉRIEL --</option>
+              <option value="ORDINATEUR">ORDINATEUR</option>
+              <option value="ECRAN">ÉCRAN</option>
+              <option value="TABLETTE">TABLETTE</option>
+              <option value="IMPRIMANTE">IMPRIMANTE</option>
+            </select>
+          </label>
+
+          <label htmlFor="etat du Materiels" className="block mb-2 font-bold">Etat du Matèriel
+            <select id="etat du materiels" name="etat" value={formData.etat} className="block w-full mx-auto px-3 border border-gray-950 p-2 rounded-3xl font-serif" onChange={handleChange} required>
+              <option value="">-- CHOISIR L'ETAT DU MATERIELS --</option>
+              <option value="Exellent">Exellent</option>
+              <option value="Bon">Bon</option>
+              <option value="Mauvais">Mauvais</option>
+              <option value="Trés Mauvais">Trés Mauvais</option>
+            </select>
+          </label>
+        </div>
+
+
+
+
+        {/* Observation */}
+        <section id="observation" className="col-span-1 md:col-span-2 mt-4 border border-gray-950 rounded-xl p-4">
+          <label htmlFor="observation" className="block mb-2 font-bold text-black">Observation :</label>
+          <textarea name="observation" id="observation" onChange={handleChange} value={formData.observation} className="w-full h-24 rounded-md p-2 resize-none" placeholder="Veuillez entrer vos observations ici..." />
+        </section>
+
+        {/* Section des boutons */}
+        <section id="button" className="col-span-1 md:col-span-2 flex space-x-4 mt-4">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+            Créer clients
+          </button>
+
+          <button type="button" className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" onClick={handleClose}>
+            Fermer le Formulaire
+          </button>
+        </section>
+      </form>
+    </div>
+  );
 }
 
-export default Ficheclients; // Exportation du composant pour utilisation dans d'autres parties de l'application
+export default Ficheclients;
