@@ -33,6 +33,11 @@ export const createClient = async (clientData: SignUpState) => {
   return axios.post(API_URL, clientData);
 };
 
+// Récupérer un client par ID
+export const fetchClientById = async (id: number) => {
+  return axios.get<Client>(`${API_URL}/${id}`);
+};
+
 // Mettre à jour un client
 export const updateClient = async (id: number, clientData: SignUpState) => {
   return axios.put(`${API_URL}/${id}`, clientData);
