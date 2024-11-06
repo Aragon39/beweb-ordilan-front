@@ -1,9 +1,11 @@
-import Ordilan from "../assets/image/Logo-ordilan-png-1024x295.png";
-import { useState } from "react";
+import Ordilan from "../assets/image/Logo-ordilan-png-1024x295.png"; 
+import { useState } from "react"; 
+import { useNavigate } from "react-router-dom"; 
 
-function Devis() {
-    interface SignUpSate {
-        dateDuDevis: string;
+function Devis() { 
+    // Définition de l'interface pour les données du formulaire
+    interface SignUpState { 
+        dateDuDevis: string; 
         dateDeValiditeDuDevis: string;
         dateDeDebutDeLaPrestation: string;
         nomDuDestinataire: string;
@@ -11,13 +13,15 @@ function Devis() {
         emisPar: string;
     }
 
-    interface LigneDevis {
-        description: string;
-        prixUnitaire: number;
-        quantite: number;
+    // Définition de l'interface pour les lignes de devis
+    interface LigneDevis { 
+        description: string; 
+        prixUnitaire: number; 
+        quantite: number; 
     }
 
-    const [formData, setFormData] = useState<SignUpSate>({
+    // Initialisation de l'état pour les données du formulaire
+    const [formData, setFormData] = useState<SignUpState>({
         dateDuDevis: "",
         dateDeValiditeDuDevis: "",
         dateDeDebutDeLaPrestation: "",
@@ -26,131 +30,81 @@ function Devis() {
         emisPar: ""
     });
 
-    const [lignesDevis, setLignesDevis] = useState<LigneDevis[]>([
-        { description: '', prixUnitaire: 0, quantite: 0 }
-    ]);
+    // Initialisation de l'état pour les lignes du devis
+    const [lignesDevis, setLignesDevis] = useState<LigneDevis[]>([{ description: '', prixUnitaire: 0, quantite: 0 }]);
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-    ) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // Utilisation de useNavigate pour la navigation
+    const navigate = useNavigate(); 
+
+    // Fonction pour gérer les changements dans les champs du formulaire principal
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
+        const { name, value } = e.target; 
+        setFormData((prevData) => ({ ...prevData, [name]: value })); // Met à jour l'état des données du formulaire
     };
 
-    const handleLigneChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        const newLignes = [...lignesDevis];
-        newLignes[index] = { ...newLignes[index], [name]: value };
-        setLignesDevis(newLignes);
+    // Fonction pour gérer les changements dans les champs des lignes de devis
+    const handleLigneChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => { 
+        const { name, value } = e.target; 
+        setLignesDevis((prevLignes) => { 
+            const updatedLignes = [...prevLignes]; 
+            updatedLignes[index] = { ...updatedLignes[index], [name]: name === "prixUnitaire" || name === "quantite" ? Number(value) : value }; 
+            return updatedLignes; // Met à jour la ligne du devis modifiée
+        });
     };
 
-    const addLigne = () => {
-        setLignesDevis([...lignesDevis, { description: '', prixUnitaire: 0, quantite: 0 }]);
+    // Fonction pour ajouter une nouvelle ligne de devis
+    const addLigne = () => setLignesDevis([...lignesDevis, { description: '', prixUnitaire: 0, quantite: 0 }]);
+
+    // Fonction pour supprimer une ligne de devis
+    const removeLigne = (index: number) => setLignesDevis(lignesDevis.filter((_, i) => i !== index));
+
+    // Fonction pour calculer les totaux du devis (HT, TVA, TTC)
+    const calculateTotals = () => { 
+        const totalHT = lignesDevis.reduce((sum, ligne) => sum + ligne.prixUnitaire * ligne.quantite, 0); 
+        const tva = totalHT * 0.2; // TVA à 20%
+        const totalTTC = totalHT + tva; 
+        return { totalHT, tva, totalTTC }; // Retourne les totaux calculés
     };
 
-    const removeLigne = (index: number) => {
-        const newLignes = lignesDevis.filter((_, i) => i !== index);
-        setLignesDevis(newLignes);
+    // Fonction pour gérer la soumission du formulaire
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { 
+        e.preventDefault(); // Empêche le rechargement de la page
     };
 
-    const calculateTotals = () => {
-        const totalHT = lignesDevis.reduce((sum, ligne) => sum + (ligne.prixUnitaire * ligne.quantite), 0);
-        const tva = totalHT * 0.2; // Supposons que la TVA est de 20%
-        const totalTTC = totalHT + tva;
-        return { totalHT, tva, totalTTC };
-    };
+    // Calcul des totaux pour afficher les informations de facturation
+    const { totalHT, tva, totalTTC } = calculateTotals(); 
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Données du formulaire:", formData);
-        console.log("Lignes de devis:", lignesDevis);
-    };
-
-    const { totalHT, tva, totalTTC } = calculateTotals();
-
-    return (
-        <div className="container mx-auto p-4">
+    return ( 
+        <div className="container mx-auto p-4"> 
             <section className="flex flex-col md:flex-row items-center mb-8">
+                {/* Logo de l'entreprise */}
                 <img src={Ordilan} alt="logo ordilan" className="h-40 mb-4 md:mb-0" />
-                <h1 className="text-4xl md:text-6xl text-center md:text-left md:ml-52 w-full">
-                    DEVIS N°
-                </h1>
+                {/* Titre du devis */}
+                <h1 className="text-4xl md:text-6xl text-center md:text-left md:ml-52 w-full">DEVIS N°</h1>
             </section>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col">
-                    <label className="block mb-2 font-bold">
-                        Date du Devis
+                {/* Boucle pour générer les champs du formulaire avec leurs libellés */}
+                {[
+                    { label: "Date du Devis", name: "dateDuDevis" },
+                    { label: "Date de Validité Du Devis", name: "dateDeValiditeDuDevis" },
+                    { label: "Date du Début de la Prestation", name: "dateDeDebutDeLaPrestation" },
+                    { label: "Nom du Destinataire", name: "nomDuDestinataire" },
+                    { label: "Adresse", name: "adresse" },
+                    { label: "Emis Par", name: "emisPar" }
+                ].map(({ label, name }) => (
+                    <div key={name} className="flex flex-col font-bold">
+                        <label className="block mb-2">{label}</label>
                         <input
-                            type="datetime-local"
-                            name="dateDuDevis"
+                            type={name.includes("date") ? "datetime-local" : "text"} // Définit le type de champ selon le nom
+                            name={name}
+                            value={formData[name as keyof SignUpState]}
                             onChange={handleChange}
-                            value={formData.dateDuDevis}
                             className="border border-gray-950 rounded-3xl p-2 w-full"
                             required
                         />
-                    </label>
-                    <label className="block mb-2 font-bold">
-                        Date de Validité Du Devis
-                        <input
-                            type="datetime-local"
-                            name="dateDeValiditeDuDevis"
-                            onChange={handleChange}
-                            value={formData.dateDeValiditeDuDevis}
-                            className="border border-gray-950 rounded-3xl p-2 w-full"
-                            required
-                        />
-                    </label>
-                    <label className="block mb-2 font-bold">
-                        Date du Début de la Prestation
-                        <input
-                            type="datetime-local"
-                            name="dateDeDebutDeLaPrestation"
-                            onChange={handleChange}
-                            value={formData.dateDeDebutDeLaPrestation}
-                            className="border border-gray-950 rounded-3xl p-2 w-full"
-                            required
-                        />
-                    </label>
-                </div>
-
-                <div className="flex flex-col font-bold">
-                    <label className="block mb-2">
-                        Nom du Destinataire
-                        <input
-                            type="text"
-                            name="nomDuDestinataire"
-                            onChange={handleChange}
-                            value={formData.nomDuDestinataire}
-                            className="border border-gray-950 rounded-3xl p-2 w-full"
-                            required
-                        />
-                    </label>
-
-                    <label className="block mb-2">
-                        Adresse
-                        <input
-                            type="text"
-                            name="adresse"
-                            onChange={handleChange}
-                            value={formData.adresse}
-                            className="border border-gray-950 rounded-3xl p-2 w-full"
-                            required
-                        />
-                    </label>
-
-                    <label className="block mb-2">
-                        Emis Par
-                        <input
-                            type="text"
-                            name="emisPar"
-                            onChange={handleChange}
-                            value={formData.emisPar}
-                            className="border border-gray-950 rounded-3xl p-2 w-full"
-                            required
-                        />
-                    </label>
-                </div>
+                    </div>
+                ))}
             </form>
 
             <section className="mt-8">
@@ -158,55 +112,56 @@ function Devis() {
                 <div className="overflow-x-auto">
                     <table className="min-w-full border border-gray-300">
                         <thead>
+                            {/* En-têtes du tableau des lignes de devis */}
                             <tr className="bg-gray-100">
-                                <th className="border border-gray-300 p-2">Description</th>
-                                <th className="border border-gray-300 p-2">Prix unitaire HT</th>
-                                <th className="border border-gray-300 p-2">Quantité</th>
-                                <th className="border border-gray-300 p-2">Total HT</th>
-                                <th className="border border-gray-300 p-2">Actions</th>
+                                <th className="border p-2">Description</th>
+                                <th className="border p-2">Prix unitaire HT</th>
+                                <th className="border p-2">Quantité</th>
+                                <th className="border p-2">Total HT</th>
+                                <th className="border p-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {/* Affichage des lignes de devis */}
                             {lignesDevis.map((ligne, index) => (
                                 <tr key={index}>
-                                    <td className="border border-gray-300 p-2">
+                                    <td className="border p-2">
+                                        {/* Champ pour la description de la ligne */}
                                         <input
                                             type="text"
                                             name="description"
                                             value={ligne.description}
                                             onChange={(e) => handleLigneChange(index, e)}
-                                            className="border border-gray-950 rounded p-1 w-full"
-                                            required
+                                            className="border w-full"
                                         />
                                     </td>
-                                    <td className="border border-gray-300 p-2">
+                                    <td className="border p-2">
+                                        {/* Champ pour le prix unitaire HT */}
                                         <input
                                             type="number"
                                             name="prixUnitaire"
                                             value={ligne.prixUnitaire}
                                             onChange={(e) => handleLigneChange(index, e)}
-                                            className="border border-gray-950 rounded p-1 w-full"
-                                            required
+                                            className="border w-full"
                                         />
                                     </td>
-                                    <td className="border border-gray-300 p-2">
+                                    <td className="border p-2">
+                                        {/* Champ pour la quantité */}
                                         <input
                                             type="number"
                                             name="quantite"
                                             value={ligne.quantite}
                                             onChange={(e) => handleLigneChange(index, e)}
-                                            className="border border-gray-950 rounded p-1 w-full"
-                                            required
+                                            className="border w-full"
                                         />
                                     </td>
-                                    <td className="border border-gray-300 p-2">
+                                    <td className="border p-2">
+                                        {/* Affichage du total HT de la ligne (prix unitaire * quantité) */}
                                         {(ligne.prixUnitaire * ligne.quantite).toFixed(2)} €
                                     </td>
-                                    <td className="border border-gray-300 p-2">
-                                        <button
-                                            onClick={() => removeLigne(index)}
-                                            className="bg-red-500 text-white rounded px-2 py-1"
-                                        >
+                                    <td className="border p-2">
+                                        {/* Bouton pour supprimer la ligne */}
+                                        <button onClick={() => removeLigne(index)} className="bg-red-500 text-white rounded px-2 py-1">
                                             Supprimer
                                         </button>
                                     </td>
@@ -215,6 +170,7 @@ function Devis() {
                         </tbody>
                     </table>
                 </div>
+                {/* Bouton pour ajouter une ligne de devis */}
                 <button
                     type="button"
                     onClick={addLigne}
@@ -226,22 +182,26 @@ function Devis() {
 
             <div className="mt-4 flex justify-end">
                 <div className="border-t border-gray-300 pt-4">
-                    <div className="flex justify-between">
-                        <span>Total HT:</span>
-                        <span>{totalHT.toFixed(2)} €</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span>TVA (20%):</span>
-                        <span>{tva.toFixed(2)} €</span>
-                    </div>
-                    <div className="flex justify-between font-bold">
-                        <span>Total TTC:</span>
-                        <span>{totalTTC.toFixed(2)} €</span>
-                    </div>
+                    {/* Affichage des totaux : HT, TVA et TTC */}
+                    {[
+                        { label: "Total HT", value: totalHT },
+                        { label: "TVA (20%)", value: tva },
+                        { label: "Total TTC", value: totalTTC }
+                    ].map(({ label, value }) => (
+                        <div key={label} className="flex justify-between">
+                            <span>{label}:</span>
+                            <span>{value.toFixed(2)} €</span>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 flex justify-between">
+                {/* Bouton Retour qui ramène au menu */}
+                <button type="button" onClick={() => navigate("/menu")} className="bg-gray-500 text-white py-2 px-4 rounded">
+                    Retour
+                </button>
+                {/* Bouton pour soumettre le devis */}
                 <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded">
                     Soumettre le Devis
                 </button>

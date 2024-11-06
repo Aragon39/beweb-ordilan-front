@@ -1,9 +1,10 @@
-import {Link} from 'react-router-dom';
-import {useEffect, useRef} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
 const Menu: React.FC = () => {
     // Crée une référence pour accéder au canevas HTML
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Récupère l'élément canvas à partir de la référence
@@ -22,7 +23,7 @@ const Menu: React.FC = () => {
         resizeCanvas();
 
         // Crée les étoiles avec des propriétés aléatoires
-        const stars = Array.from({length: 3500}).map(() => ({
+        const stars = Array.from({ length: 3500 }).map(() => ({
             x: Math.random() * canvas.width,  // Position x
             y: Math.random() * canvas.height, // Position y
             radius: Math.random() * 2,        // Rayon de l'étoile
@@ -69,15 +70,22 @@ const Menu: React.FC = () => {
 
     }, []);
 
+    const handleLogout = () => {
+        // Supprimez les données d'authentification, par exemple, supprimez le token
+        localStorage.removeItem('authToken');
+        
+        // Redirigez vers la page de connexion
+        navigate('/');
+    };
+
     return (
         <nav className="flex items-center justify-center min-h-screen bg-black relative">
-                                   {/* Canevas pour les étoiles en arrière-plan */}
-            <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"/>
+            {/* Canevas pour les étoiles en arrière-plan */}
+            <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none" />
 
+            <div className="flex flex-col items-center space-y-5 p-7 relative max-w-lg w-full">
 
-            <div className="flex flex-col items-center space-y-5 p-7 relative  max-w-lg w-full">
-
-                                                      {/*fiche clients*/}
+                {/* Section pour chaque lien de menu */}
                 <section id="fiche-clients" className="flex justify-center w-full">
                     <Link
                         to="/ficheclients"
@@ -85,7 +93,7 @@ const Menu: React.FC = () => {
                         Fiche Client
                     </Link>
                 </section>
-                                                       {/*liste clients */}
+                
                 <section id="liste-clients" className="flex justify-center w-full">
                     <Link
                         to="/listeclients"
@@ -93,7 +101,7 @@ const Menu: React.FC = () => {
                         Liste Clients
                     </Link>
                 </section>
-                                                     {/*Historique clients */}
+
                 <section id="Historique-clients" className="flex justify-center w-full">
                     <Link
                         to="/Historiqueclients"
@@ -101,7 +109,7 @@ const Menu: React.FC = () => {
                         Historique Clients
                     </Link>
                 </section>
-                                                      {/*fiche d'interventions*/}
+
                 <section id="Fiche-Dintervention" className="flex justify-center w-full">
                     <Link
                         to="/FicheDintervention"
@@ -109,7 +117,7 @@ const Menu: React.FC = () => {
                         Fiche D'intervention
                     </Link>
                 </section>
-                                                      {/*Devis*/}
+
                 <section id="Devis" className="flex justify-center w-full">
                     <Link
                         to="/Devis"
@@ -117,7 +125,7 @@ const Menu: React.FC = () => {
                         Devis
                     </Link>
                 </section>
-                                                   {/*paiement*/}
+
                 <section id="Paiement" className="flex justify-center w-full">
                     <Link
                         to="/Paiement"
@@ -125,6 +133,16 @@ const Menu: React.FC = () => {
                         Paiement
                     </Link>
                 </section>
+
+                {/* Bouton de déconnexion */}
+                <section id='Deconnection' className='flex justify-center w-full'>
+                    <button
+                        onClick={handleLogout}
+                        className='border border-gray-950 text-5xl rounded-r-3xl p-3 text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2'>
+                        Déconnexion
+                    </button>
+                </section>
+
             </div>
         </nav>
     );

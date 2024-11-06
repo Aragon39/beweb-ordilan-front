@@ -51,7 +51,7 @@ function FicheDintervention() {
   // Soumission du formulaire
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Données du formulaire:", formData);
+    
   };
 
   return (
