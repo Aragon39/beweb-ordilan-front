@@ -3,7 +3,7 @@ import Connections from './page/Connections'; // Utiliser le même casing
 import Menu from './component/Menu'; // Votre composant de menu
 import FicheClients from './page/Ficheclients'; // Votre composant de fiche clients
 import ListeClients from './page/Listeclients'; // Composant pour la liste des clients
-import FicheDintervention from './page/FicheDintervention'; // Composant pour la fiche d'intervention
+import Historiqueclients from './page/Historiqueclients';
 import Devis from './page/Devis'; // Composant pour les devis
 import './index.css'; // Importation de votre fichier CSS global
 
@@ -15,8 +15,8 @@ function App() {
                 <Route path="/menu" element={<Menu />} /> {/* Chemin pour le menu */}
                 <Route path="/ficheclients" element={<FicheClients />} /> {/* Chemin pour les fiches clients */}
                 <Route path="/listeclients" element={<ListeClients />} /> {/* Chemin pour la liste des clients */}
-                <Route path="/fichedintervention" element={<FicheDintervention />} /> {/* Correction de la casse du chemin */}
                 <Route path="/devis" element={<Devis />} /> {/* Correction de la casse du chemin */}
+                <Route path="/Historiqueclients" element={<Historiqueclients />} />
 
                 {/* Ajoutez d'autres routes ici si nécessaire */}
             </Routes>

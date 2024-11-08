@@ -110,14 +110,6 @@ const Menu: React.FC = () => {
                     </Link>
                 </section>
 
-                <section id="Fiche-Dintervention" className="flex justify-center w-full">
-                    <Link
-                        to="/FicheDintervention"
-                        className="border border-gray-950 text-5xl p-3 rounded-3xl text-center bg-gradient-to-r from-black to-blue-500 text-accent-50 w-full shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:-translate-y-2">
-                        Fiche D'intervention
-                    </Link>
-                </section>
-
                 <section id="Devis" className="flex justify-center w-full">
                     <Link
                         to="/Devis"

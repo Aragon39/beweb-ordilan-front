@@ -75,7 +75,7 @@ function Devis() {
     const { totalHT, tva, totalTTC } = calculateTotals(); 
 
     return ( 
-        <div className="container mx-auto p-4"> 
+        <div className="container mx-auto p-4 "> 
             <section className="flex flex-col md:flex-row items-center mb-8">
                 {/* Logo de l'entreprise */}
                 <img src={Ordilan} alt="logo ordilan" className="h-40 mb-4 md:mb-0" />
@@ -109,11 +109,11 @@ function Devis() {
 
             <section className="mt-8">
                 <h2 className="text-xl font-bold">Détails du Devis</h2>
-                <div className="overflow-x-auto">
-                    <table className="min-w-full border border-gray-300">
+                <div className="overflow-x-auto ">
+                    <table className="min-w-full ">
                         <thead>
                             {/* En-têtes du tableau des lignes de devis */}
-                            <tr className="bg-gray-100">
+                            <tr className="bg-blue-500 text-white">
                                 <th className="border p-2">Description</th>
                                 <th className="border p-2">Prix unitaire HT</th>
                                 <th className="border p-2">Quantité</th>
@@ -142,24 +142,24 @@ function Devis() {
                                             name="prixUnitaire"
                                             value={ligne.prixUnitaire}
                                             onChange={(e) => handleLigneChange(index, e)}
-                                            className="border w-full"
+                                            className="border w-full text-center"
                                         />
                                     </td>
-                                    <td className="border p-2">
+                                    <td className="border p-2 ">
                                         {/* Champ pour la quantité */}
                                         <input
                                             type="number"
                                             name="quantite"
                                             value={ligne.quantite}
                                             onChange={(e) => handleLigneChange(index, e)}
-                                            className="border w-full"
+                                            className="border w-full text-center"
                                         />
                                     </td>
-                                    <td className="border p-2">
+                                    <td className="border p-2 text-center">
                                         {/* Affichage du total HT de la ligne (prix unitaire * quantité) */}
                                         {(ligne.prixUnitaire * ligne.quantite).toFixed(2)} €
                                     </td>
-                                    <td className="border p-2">
+                                    <td className="border p-2 text-center">
                                         {/* Bouton pour supprimer la ligne */}
                                         <button onClick={() => removeLigne(index)} className="bg-red-500 text-white rounded px-2 py-1">
                                             Supprimer
@@ -181,14 +181,14 @@ function Devis() {
             </section>
 
             <div className="mt-4 flex justify-end">
-                <div className="border-t border-gray-300 pt-4">
+                <div className="border-t border-blue-600 pt-4">
                     {/* Affichage des totaux : HT, TVA et TTC */}
                     {[
                         { label: "Total HT", value: totalHT },
                         { label: "TVA (20%)", value: tva },
                         { label: "Total TTC", value: totalTTC }
                     ].map(({ label, value }) => (
-                        <div key={label} className="flex justify-between">
+                        <div key={label} className="flex justify-between pt-2">
                             <span>{label}:</span>
                             <span>{value.toFixed(2)} €</span>
                         </div>
@@ -198,7 +198,7 @@ function Devis() {
 
             <div className="mt-8 flex justify-between">
                 {/* Bouton Retour qui ramène au menu */}
-                <button type="button" onClick={() => navigate("/menu")} className="bg-gray-500 text-white py-2 px-4 rounded">
+                <button type="button" onClick={() => navigate("/menu")} className="bg-blue-500 text-white py-2 px-4 rounded">
                     Retour
                 </button>
                 {/* Bouton pour soumettre le devis */}

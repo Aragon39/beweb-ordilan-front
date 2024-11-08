@@ -5,25 +5,38 @@ export interface SignUpState {
   id?: number;
   nom: string;
   prenom: string;
-  date: string;
+  dateEtHeureDeDebut: string;
+  dateEtHeureDeFin: string;
   email: string;
   adresse: string;
+  CodePostal: string;
   telephone: string;
   observation: string;
+  natureDeLintervention:string;
+  descriptions:string;
   materiels: string;
+  marqueDeLaMachine: string;
   etat: string;
+  intervenant: string
 }
 
 export interface Client {
-  id: number;
+  id?: number;
   nom: string;
   prenom: string;
-  date: string;
+  dateEtHeureDeDebut: string;
+  dateEtHeureDeFin: string;
   email: string;
   adresse: string;
+  CodePostal: string;
   telephone: string;
+  observation: string;
+  natureDeLintervention:string;
+  descriptions:string;
   materiels: string;
+  marqueDeLaMachine: string;
   etat: string;
+  intervenant: string
 }
 
 const API_URL = "http://localhost:3000/clients";

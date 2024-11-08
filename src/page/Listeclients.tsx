@@ -26,7 +26,12 @@ const Listeclients: React.FC = () => {
     }, []);
 
     // Suppression d'un client
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: number | undefined) => {
+        if (id === undefined) {
+            console.error("L'ID du client est undefined.");
+            return;
+        }
+
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce client ?")) {
             try {
                 await deleteClient(id);
@@ -40,6 +45,10 @@ const Listeclients: React.FC = () => {
 
     // Modification d'un client
     const handleEdit = (client: Client) => {
+        if (!client.id) {
+            console.error("L'ID du client est manquant.");
+            return;
+        }
         navigate("/Ficheclients", { state: { client } });
     };
 
@@ -64,11 +73,11 @@ const Listeclients: React.FC = () => {
                 {loading ? (
                     <p className="text-center py-4">Chargement des clients...</p>
                 ) : (
-                    <table className="min-w-full border-collapse border bg-blue-900">
+                    <table className="min-w-full ">
                         <thead>
                             <tr>
-                                {["Id", "Nom", "Prénom", "Adresse", "Téléphone", "Matériels", "État", "Date", "Email", "Actions"].map((header) => (
-                                    <th key={header} className="px-2 py-1 border border-gray-300 text-accent-50 text-xs md:text-sm">
+                                {["Id", "Nom", "Prénom", "Adresse", "Téléphone", "Matériels", "État", "Date et Heure de Début", "Email", "Actions"].map((header) => (
+                                    <th key={header} className="px-2 py-1 border border-gray-950 text-customWhite bg-blue-700 text-lg md:text-lg">
                                         {header}
                                     </th>
                                 ))}
@@ -82,21 +91,27 @@ const Listeclients: React.FC = () => {
                             ) : (
                                 clients.map((client) => (
                                     <tr key={client.id}>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.id}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.nom}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.prenom}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.adresse}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.telephone}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.materiels}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.etat}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.date}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">{client.email}</td>
-                                        <td className="border px-1 py-1 text-white text-xs md:text-sm">
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.id}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.nom}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.prenom}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.adresse}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.telephone}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.materiels}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.etat}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.dateEtHeureDeDebut}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.email}</td>
+                                        <td className="border px-1 py-1 text-xs md:text-sm">
                                             <div className="flex justify-center space-x-2">
-                                                <button className="px-2 py-1 text-white bg-red-500 rounded" onClick={() => handleDelete(client.id)}>
+                                                <button 
+                                                    className="px-2 py-1 text-white bg-red-500 rounded" 
+                                                    onClick={() => handleDelete(client.id)} // Assurez-vous que l'ID est valide
+                                                >
                                                     Supprimer
                                                 </button>
-                                                <button className="px-2 py-1 text-white bg-blue-700 rounded" onClick={() => handleEdit(client)}>
+                                                <button 
+                                                    className="px-2 py-1 text-white bg-blue-700 rounded" 
+                                                    onClick={() => handleEdit(client)} 
+                                                >
                                                     Modifier
                                                 </button>
                                             </div>
@@ -111,7 +126,10 @@ const Listeclients: React.FC = () => {
 
             {/* Bouton Retour */}
             <div className="mt-2 flex space-x-4">
-                <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" onClick={handleClose}>
+                <button 
+                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" 
+                    onClick={handleClose}
+                >
                     Retour
                 </button>
             </div>
