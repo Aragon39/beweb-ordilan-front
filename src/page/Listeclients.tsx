@@ -52,8 +52,18 @@ const Listeclients: React.FC = () => {
         navigate("/Ficheclients", { state: { client } });
     };
 
+    // Voir l'historique d'un client
+    const handleViewHistory = (client: Client) => {
+        if (!client.id) {
+            console.error("L'ID du client est manquant.");
+            return;
+        }
+       navigate("/Historiqueclients", { state: { from: "listeclients" } });
+    };
+
     // Retour au menu
     const handleClose = () => {
+        
         navigate("/Menu");
     };
 
@@ -92,7 +102,12 @@ const Listeclients: React.FC = () => {
                                 clients.map((client) => (
                                     <tr key={client.id}>
                                         <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.id}</td>
-                                        <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.nom}</td>
+                                        <td 
+                                            className="border px-1 py-1 text-xs md:text-sm text-center cursor-pointer text-blue-600 hover:underline"
+                                            onClick={() => handleViewHistory(client)} // Ajout du clic sur le nom pour voir l'historique
+                                        >
+                                            {client.nom}
+                                        </td>
                                         <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.prenom}</td>
                                         <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.adresse}</td>
                                         <td className="border px-1 py-1 text-xs md:text-sm text-center">{client.telephone}</td>

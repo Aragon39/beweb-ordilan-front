@@ -5,7 +5,8 @@ import {
   createClient,
   updateClient,
   SignUpState,
-} from "../services/clientService"; // Assurez-vous que le chemin est correct
+} from "../services/clientService.ts"; // Assurez-vous que le chemin est correct
+import axios from "axios";
 
 const Ficheclients: React.FC = () => {
   const location = useLocation();
@@ -25,7 +26,7 @@ const Ficheclients: React.FC = () => {
     marqueDeLaMachine: "",
     etat: "",
     natureDeLintervention: "",
-    description:"",
+    descriptions: "",
     observation: "",
     intervenant: "",
   });
@@ -57,18 +58,23 @@ const Ficheclients: React.FC = () => {
 
     try {
       if (clientToEdit) {
-        // Appel au service pour mettre à jour le client
         await updateClient(clientToEdit.id, formData);
-        console.log("Client mis à jour avec succès");
       } else {
-        // Appel au service pour créer le client
         await createClient(formData);
-        console.log("Client créé avec succès");
       }
       navigate("/Listeclients");
     } catch (error) {
-      console.error("Erreur lors de la soumission du formulaire :", error);
-      setError("Une erreur est survenue lors de la soumission du formulaire.");
+      if (axios.isAxiosError(error)) {
+        console.error("Erreur Axios :", error.response?.data); // Détails de l'erreur serveur
+        setError(
+          `Une erreur est survenue : ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      } else {
+        console.error("Erreur inconnue :", error);
+        setError("Une erreur inconnue est survenue.");
+      }
     }
   };
 
@@ -315,9 +321,9 @@ const Ficheclients: React.FC = () => {
             <div className="border border-gray-950 rounded-lg p-4 w-full max-w-full mx-auto">
               Description:
               <textarea
-                name="materiels"
+                name="descriptions"
                 onChange={handleChange}
-                value={formData.description}
+                value={formData.descriptions}
                 className="w-full h-10 border-none resize-none focus:outline-none"
               />
             </div>

@@ -1,0 +1,126 @@
+@startuml diagramme_de_classe
+
+' Table des Utilisateurs (Techniciens)
+class Users {
+    +INT id                
+    +VARCHAR email          
+    +VARCHAR password                  
+    +DATETIME created_at    
+    +DATETIME updated_at    
+}
+
+' Table des Clients
+class Clients {
+    +INT id_client         
+    +VARCHAR nom_client     
+    +VARCHAR prenom_client  
+    +VARCHAR adresse       
+    +VARCHAR code_postal    
+    +VARCHAR email          
+    +VARCHAR telephone      
+    +DATETIME date_debut    
+    +DATETIME date_fin      
+}
+
+' Table des Devis
+class Devis {
+    +INT id                
+    +INT client_id         
+    +INT technicien_id    
+    +DATETIME date_du_devis  
+    +DATETIME date_de_validite
+    +DATETIME date_debut_prestation 
+    +DATETIME date_fin      
+    +DECIMAL total_ht       
+    +DECIMAL total_ttc      
+    +VARCHAR code_postal    
+}
+
+' Table des LignesDevis
+class LignesDevis {
+    +INT id               
+    +INT devis_id          
+    +VARCHAR description   
+    +DECIMAL prix_unitaire  
+    +INT quantite        
+    +DECIMAL total_ht      
+}
+
+' Table des Marques
+class Marques {
+    +INT id               
+    +VARCHAR nom_marque     
+}
+
+' Table du Matériel
+class Materiel {
+    +INT id               
+    +INT devis_id         
+    +INT marque_id       
+    +VARCHAR nom          
+    +VARCHAR etat         
+    +TEXT description     
+    +VARCHAR nature_intervention 
+    +DATETIME date_debut   
+    +DATETIME date_fin     
+}
+
+' Table des Interventions
+class Interventions {
+    +INT id               
+    +INT materiel_id       
+    +INT technicien_id     
+    +TEXT description_intervention 
+    +DATETIME date_debut  
+    +DATETIME date_fin     
+}
+
+' Table des Observations
+class Observations {
+    +INT id                
+    +INT intervention_id   
+    +INT technicien_id     
+    +TEXT observation      
+    +DATETIME date_observation 
+}
+
+' Table des relations entre Clients et Techniciens (Intervenants)
+class Clients_Intervenants {
+    +INT client_id        
+    +INT intervenant_id   
+    +DATETIME date_debut   
+    +DATETIME date_fin     
+}
+
+' ====================================
+' Relations entre les entités
+' ====================================
+
+' Un client peut avoir plusieurs devis
+Clients "1" --> "0..n" Devis : "a pour"
+
+' Un devis peut être créé par un technicien (User)
+Devis "1" --> "0..1" Users : "créé par"
+
+' Un devis peut contenir plusieurs lignes de devis
+Devis "1" --> "0..n" LignesDevis : "contient"
+
+' Un devis peut comprendre plusieurs matériels
+Devis "1" --> "0..n" Materiel : "comprend"
+
+' Un matériel peut avoir plusieurs interventions
+Materiel "1" --> "0..n" Interventions : "subit"
+
+' Une intervention peut générer plusieurs observations
+Interventions "1" --> "0..n" Observations : "génère"
+
+' Un matériel appartient à une marque
+Materiel "1" --> "0..1" Marques : "de marque"
+
+' Un client peut avoir plusieurs intervenants (techniciens) via la table Clients_Intervenants
+Clients "1" --> "0..n" Clients_Intervenants : "associé à"
+
+' Un technicien (User) peut être associé à plusieurs clients via la table Clients_Intervenants
+Users "1" --> "0..n" Clients_Intervenants : "intervient sur"
+
+@enduml

@@ -12,10 +12,11 @@
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
+    "stream-buffers": "^3.0.3",
     "three": "^0.169.0"
   },
   "devDependencies": {

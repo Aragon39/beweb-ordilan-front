@@ -74,7 +74,6 @@ const Menu: React.FC = () => {
         // Supprimez les données d'authentification, par exemple, supprimez le token
         localStorage.removeItem('authToken');
         
-        // Redirigez vers la page de connexion
         navigate('/');
     };
 
